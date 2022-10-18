@@ -23,7 +23,7 @@
 <meta name="author" content="Ronan Hart" />
 
 
-<meta name="date" content="2022-04-06" />
+<meta name="date" content="2022-10-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -136,7 +136,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">Ecology Center: R Spatial Workshop</a></li>
 
 <li class="divider"></li>
-<li><a href="index.html#url-your-book-url-like-httpsbookdown.orgyihuibookdown" id="toc-url-your-book-url-like-httpsbookdown.orgyihuibookdown"><span class="toc-section-number">1</span> url: your book url like <span>https://bookdown.org/yihui/bookdown</span><span></span></a>
+<li><a href="index.html#welcome-to-the-ecology-centers-workshop-on-r-spatial" id="toc-welcome-to-the-ecology-centers-workshop-on-r-spatial"><span class="toc-section-number">1</span> Welcome to the Ecology Center’s Workshop on R Spatial!<span></span></a>
 <ul>
 <li><a href="index.html#why-gis-in-r" id="toc-why-gis-in-r">Why GIS in R?<span></span></a></li>
 <li><a href="index.html#prerequisites-packages-and-preparation" id="toc-prerequisites-packages-and-preparation">Prerequisites, Packages, and Preparation<span></span></a></li>
@@ -324,16 +324,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  [8] &quot;Private&quot; &quot;DNR&quot;     &quot;OS&quot;      &quot;SITLA&quot;   &quot;UDOT&quot;    &quot;Tribal&quot;</code></pre>
 <p>In base R we can use the function <code>which</code> and in <code>tidyverse</code> we can use the function <code>filter</code></p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="spatial-analysis.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># base R</span></span>
-<span id="cb22-2"><a href="spatial-analysis.html#cb22-2" aria-hidden="true" tabindex="-1"></a>blm_boundary <span class="ot">&lt;-</span> manage_sf[<span class="fu">which</span>(manage_sf<span class="sc">$</span>AGENCY <span class="sc">==</span> <span class="st">&quot;BLM&quot;</span>), ] </span>
-<span id="cb22-3"><a href="spatial-analysis.html#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-4"><a href="spatial-analysis.html#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># tidyverse</span></span>
-<span id="cb22-5"><a href="spatial-analysis.html#cb22-5" aria-hidden="true" tabindex="-1"></a>blm_boundary <span class="ot">&lt;-</span> manage_sf <span class="sc">%&gt;%</span> </span>
-<span id="cb22-6"><a href="spatial-analysis.html#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(AGENCY <span class="sc">==</span> <span class="st">&quot;BLM&quot;</span>)</span>
-<span id="cb22-7"><a href="spatial-analysis.html#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-8"><a href="spatial-analysis.html#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb22-9"><a href="spatial-analysis.html#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> manage_sf, <span class="at">col =</span> <span class="st">&quot;grey&quot;</span>, <span class="at">size =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
-<span id="cb22-10"><a href="spatial-analysis.html#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> blm_boundary, <span class="at">fill =</span> <span class="st">&quot;red&quot;</span>, <span class="at">col =</span> <span class="st">&quot;grey30&quot;</span>,</span>
-<span id="cb22-11"><a href="spatial-analysis.html#cb22-11" aria-hidden="true" tabindex="-1"></a>          <span class="at">alpha =</span> <span class="fl">0.8</span>, <span class="at">size =</span> <span class="fl">0.1</span>)</span></code></pre></div>
+<span id="cb22-2"><a href="spatial-analysis.html#cb22-2" aria-hidden="true" tabindex="-1"></a>blm_boundary <span class="ot">&lt;-</span> manage_sf[manage_sf<span class="sc">$</span>AGENCY <span class="sc">==</span> <span class="st">&quot;BLM&quot;</span>, ]</span>
+<span id="cb22-3"><a href="spatial-analysis.html#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># alternatively you can use the base R function subset()</span></span>
+<span id="cb22-4"><a href="spatial-analysis.html#cb22-4" aria-hidden="true" tabindex="-1"></a>blm_boundary <span class="ot">&lt;-</span> <span class="fu">subset</span>(manage_sf, manage_sf<span class="sc">$</span>AGENCY <span class="sc">==</span> <span class="st">&quot;BLM&quot;</span>)</span>
+<span id="cb22-5"><a href="spatial-analysis.html#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="spatial-analysis.html#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co"># tidyverse</span></span>
+<span id="cb22-7"><a href="spatial-analysis.html#cb22-7" aria-hidden="true" tabindex="-1"></a>blm_boundary <span class="ot">&lt;-</span> manage_sf <span class="sc">%&gt;%</span> </span>
+<span id="cb22-8"><a href="spatial-analysis.html#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(AGENCY <span class="sc">==</span> <span class="st">&quot;BLM&quot;</span>)</span>
+<span id="cb22-9"><a href="spatial-analysis.html#cb22-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-10"><a href="spatial-analysis.html#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb22-11"><a href="spatial-analysis.html#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> manage_sf, <span class="at">col =</span> <span class="st">&quot;grey&quot;</span>, <span class="at">size =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb22-12"><a href="spatial-analysis.html#cb22-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> blm_boundary, <span class="at">fill =</span> <span class="st">&quot;red&quot;</span>, <span class="at">col =</span> <span class="st">&quot;grey30&quot;</span>,</span>
+<span id="cb22-13"><a href="spatial-analysis.html#cb22-13" aria-hidden="true" tabindex="-1"></a>          <span class="at">alpha =</span> <span class="fl">0.8</span>, <span class="at">size =</span> <span class="fl">0.1</span>)</span></code></pre></div>
 <p><img src="_main_files/figure-html/selectBLM-1.png" width="672" /></p>
 <p>Using these functions, you can set up any logical statement using <code>==</code>, <code>%in%</code>, <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code>, or <code>!</code> and select for the specific attributes you need.</p>
 </div>
@@ -630,16 +632,72 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="re-classify-rasters" class="section level2 hasAnchor" number="4.7">
 <h2><span class="header-section-number">4.7</span> Re-Classify Rasters<a href="spatial-analysis.html#re-classify-rasters" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Sometimes you may need to <strong>re-classify</strong> a raster. This means that you are assigning or changing raster cell values to new values. You may need to do this to</p>
+<ul>
+<li>replace values with new information</li>
+<li>group or bin specific values together</li>
+<li>set values to NA or set NA cells to a value</li>
+</ul>
+<p>To re-classify a raster in R you use the aptly named function <code>reclassify()</code>. The arguments for <code>reclassify</code> are <code>x</code> (the Raster* object) and <code>rcl</code> (a matrix for reclassification)</p>
+<p>Let’s practice. Let’s say we want to simplify our landcover raster and classify the cells into more general habitat classifications. Fortunately, the landcover data frame already has this information</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="spatial-analysis.html#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(land_info[, <span class="fu">c</span>(<span class="st">&quot;ClassCode&quot;</span>, <span class="st">&quot;ClassName&quot;</span>)])</span></code></pre></div>
+<pre><code>##     ClassCode                                       ClassName
+## 1           1                               Forest &amp; Woodland
+## 116         2                         Shrub &amp; Herb Vegetation
+## 299         3                            Desert &amp; Semi-Desert
+## 489         4 Polar &amp; High Montane Scrub, Grassland &amp; Barrens
+## 498         5                              Aquatic Vegetation
+## 503         6                            Open Rock Vegetation
+## 541         8   Nonvascular &amp; Sparse Vascular Rock Vegetation
+## 544         7             Agricultural &amp; Developed Vegetation
+## 547         9            Introduced &amp; Semi Natural Vegetation
+## 553        10                  Recently Disturbed or Modified
+## 565        11                                      Open Water
+## 568         8                     Developed &amp; Other Human Use</code></pre>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="spatial-analysis.html#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(land_info[, <span class="fu">c</span>(<span class="st">&quot;Value&quot;</span>, <span class="st">&quot;ClassCode&quot;</span>)])</span></code></pre></div>
+<pre><code>##      Value         ClassCode     
+##  Min.   :  1.0   Min.   : 1.000  
+##  1st Qu.:144.8   1st Qu.: 1.000  
+##  Median :293.5   Median : 2.000  
+##  Mean   :292.3   Mean   : 2.257  
+##  3rd Qu.:440.2   3rd Qu.: 2.000  
+##  Max.   :584.0   Max.   :11.000</code></pre>
+<p>The “Value” column (the data representing the cell values of the landcover raster) has values from 1 to 584 to represent specific habitats within “Forest &amp; Woodland” or “Desert &amp; Semi-Desert” for example, while the “ClassCode” column only has values from 1 to 11 to represent these general habitat types. Much more simple.</p>
+<p>So let’s take these two columns and make a matrix for the <code>rcl</code> argument in <code>reclassify</code>.</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="spatial-analysis.html#cb77-1" aria-hidden="true" tabindex="-1"></a>rclLand <span class="ot">&lt;-</span> land_info[, <span class="fu">c</span>(<span class="st">&quot;Value&quot;</span>, <span class="st">&quot;ClassCode&quot;</span>)] </span>
+<span id="cb77-2"><a href="spatial-analysis.html#cb77-2" aria-hidden="true" tabindex="-1"></a>rclLand <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(rclLand)</span>
+<span id="cb77-3"><a href="spatial-analysis.html#cb77-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(rclLand)</span></code></pre></div>
+<pre><code>##      Value ClassCode
+## [1,]     1         1
+## [2,]     2         1
+## [3,]     3         1
+## [4,]     4         1
+## [5,]     5         1
+## [6,]     6         1</code></pre>
+<p>Now we just need to input this matrix and the landcover raster into the function.</p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="spatial-analysis.html#cb79-1" aria-hidden="true" tabindex="-1"></a>landcover_rcl <span class="ot">&lt;-</span> <span class="fu">reclassify</span>(landcover, rclLand)</span></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="spatial-analysis.html#cb80-1" aria-hidden="true" tabindex="-1"></a>landcover_rcl</span></code></pre></div>
+<pre><code>## class      : RasterLayer 
+## dimensions : 18675, 14838, 277099650  (nrow, ncol, ncell)
+## resolution : 30, 30  (x, y)
+## extent     : 229319.6, 674459.6, 4094414, 4654664  (xmin, xmax, ymin, ymax)
+## crs        : +proj=utm +zone=12 +datum=NAD83 +units=m +no_defs 
+## source     : landcover_rcl.tif 
+## names      : landcover_rcl 
+## values     : 1, 11  (min, max)</code></pre>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="spatial-analysis.html#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">stack</span>(landcover, landcover_rcl)) <span class="co"># plot them together to compare</span></span></code></pre></div>
+<p><img src="_main_files/figure-html/plotRCL-1.png" width="672" /></p>
+<p>Great!</p>
 </div>
 <div id="raster-cell-stats" class="section level2 hasAnchor" number="4.8">
 <h2><span class="header-section-number">4.8</span> Raster Cell Stats<a href="spatial-analysis.html#raster-cell-stats" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>In my research I often have to perform cell algebra or focal statistics. Maybe you need to know the average elevation or the total herbaceous biomass within a certain area. The way to get these values are with the function <code>cellStats</code>. We simply need to input the raster and the <code>stat</code> function: <code>sum</code>, <code>mean</code>, <code>min</code>, <code>max</code>, <code>sd</code>, or a homemade function. Let’s say we need to calculate some stats of the elevation, SWE, and snow depth within a 5-km area around our sites.</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="spatial-analysis.html#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(elev_snow_stk<span class="sc">$</span>elevation)</span>
-<span id="cb73-2"><a href="spatial-analysis.html#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(sites_sf_proj), <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">add =</span> T)</span></code></pre></div>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="spatial-analysis.html#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(elev_snow_stk<span class="sc">$</span>elevation)</span>
+<span id="cb83-2"><a href="spatial-analysis.html#cb83-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(sites_sf_proj), <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">add =</span> T)</span></code></pre></div>
 <p><img src="_main_files/figure-html/plotSites-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>We need to know which of our sites are within the extent of the raster. There are probably many ways of doing this. The most straightforward way I can think of getting just the sites that fall within the raster are 1) extracting raster data at each site and 2) filtering to just the sites that have raster data attached.</p>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="spatial-analysis.html#cb74-1" aria-hidden="true" tabindex="-1"></a>sites_rast <span class="ot">&lt;-</span> raster<span class="sc">::</span><span class="fu">extract</span>(elev_snow_stk, sites_sf_proj)</span>
-<span id="cb74-2"><a href="spatial-analysis.html#cb74-2" aria-hidden="true" tabindex="-1"></a>sites_rast <span class="co"># notice how only 3 rows (sites) have data</span></span></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="spatial-analysis.html#cb84-1" aria-hidden="true" tabindex="-1"></a>sites_rast <span class="ot">&lt;-</span> raster<span class="sc">::</span><span class="fu">extract</span>(elev_snow_stk, sites_sf_proj)</span>
+<span id="cb84-2"><a href="spatial-analysis.html#cb84-2" aria-hidden="true" tabindex="-1"></a>sites_rast <span class="co"># notice how only 3 rows (sites) have data</span></span></code></pre></div>
 <pre><code>##       elevation swe snow_depth
 ##  [1,]        NA  NA         NA
 ##  [2,]        NA  NA         NA
@@ -656,8 +714,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## [13,]        NA  NA         NA
 ## [14,]        NA  NA         NA
 ## [15,]        NA  NA         NA</code></pre>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="spatial-analysis.html#cb76-1" aria-hidden="true" tabindex="-1"></a>sites_sf_proj <span class="ot">&lt;-</span> <span class="fu">cbind</span>(sites_sf_proj, <span class="fu">as.data.frame</span>(sites_rast)) <span class="co"># convert the matrix into a a data frame</span></span>
-<span id="cb76-2"><a href="spatial-analysis.html#cb76-2" aria-hidden="true" tabindex="-1"></a>sites_sf_proj</span></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="spatial-analysis.html#cb86-1" aria-hidden="true" tabindex="-1"></a>sites_sf_proj <span class="ot">&lt;-</span> <span class="fu">cbind</span>(sites_sf_proj, <span class="fu">as.data.frame</span>(sites_rast)) <span class="co"># convert the matrix into a a data frame</span></span>
+<span id="cb86-2"><a href="spatial-analysis.html#cb86-2" aria-hidden="true" tabindex="-1"></a>sites_sf_proj</span></code></pre></div>
 <pre><code>## Simple feature collection with 15 features and 6 fields
 ## Geometry type: POINT
 ## Dimension:     XY
@@ -686,9 +744,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 8  POINT (564670.6 4513862)
 ## 9  POINT (287581.9 4469956)
 ## 10 POINT (377495.7 4157301)</code></pre>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="spatial-analysis.html#cb78-1" aria-hidden="true" tabindex="-1"></a>sites_sf_rast <span class="ot">&lt;-</span> sites_sf_proj <span class="sc">%&gt;%</span></span>
-<span id="cb78-2"><a href="spatial-analysis.html#cb78-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(elevation) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(swe) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(snow_depth))</span>
-<span id="cb78-3"><a href="spatial-analysis.html#cb78-3" aria-hidden="true" tabindex="-1"></a>sites_sf_rast</span></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="spatial-analysis.html#cb88-1" aria-hidden="true" tabindex="-1"></a>sites_sf_rast <span class="ot">&lt;-</span> sites_sf_proj <span class="sc">%&gt;%</span></span>
+<span id="cb88-2"><a href="spatial-analysis.html#cb88-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(elevation) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(swe) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(snow_depth))</span>
+<span id="cb88-3"><a href="spatial-analysis.html#cb88-3" aria-hidden="true" tabindex="-1"></a>sites_sf_rast</span></code></pre></div>
 <pre><code>## Simple feature collection with 3 features and 6 fields
 ## Geometry type: POINT
 ## Dimension:     XY
@@ -703,44 +761,44 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 2 POINT (564670.6 4513862)
 ## 3 POINT (568976.1 4450000)</code></pre>
 <p>Let’s just do this for one of our sites for now and then we can try it with the others.</p>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="spatial-analysis.html#cb80-1" aria-hidden="true" tabindex="-1"></a>site_sf_rast_01 <span class="ot">&lt;-</span> sites_sf_rast[<span class="dv">1</span>,]</span></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="spatial-analysis.html#cb90-1" aria-hidden="true" tabindex="-1"></a>site_sf_rast_01 <span class="ot">&lt;-</span> sites_sf_rast[<span class="dv">1</span>,]</span></code></pre></div>
 <p>First, we need to know which parts of this raster are within 5-km of the site, so we will need to crop the raster. We can do that by first making a buffer with <code>st_buffer()</code></p>
-<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="spatial-analysis.html#cb81-1" aria-hidden="true" tabindex="-1"></a>site_buff_5km <span class="ot">&lt;-</span> <span class="fu">st_buffer</span>(site_sf_rast_01, <span class="dv">5000</span>) <span class="co"># units are in meters, 1000m = 1km</span></span>
-<span id="cb81-2"><a href="spatial-analysis.html#cb81-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb81-3"><a href="spatial-analysis.html#cb81-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(elev_snow_stk[[<span class="dv">1</span>]]) <span class="co"># let&#39;s just plot one layer for demonstration</span></span>
-<span id="cb81-4"><a href="spatial-analysis.html#cb81-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(site_buff_5km), <span class="at">lwd =</span> <span class="dv">1</span>, <span class="at">add =</span> T)</span></code></pre></div>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="spatial-analysis.html#cb91-1" aria-hidden="true" tabindex="-1"></a>site_buff_5km <span class="ot">&lt;-</span> <span class="fu">st_buffer</span>(site_sf_rast_01, <span class="dv">5000</span>) <span class="co"># units are in meters, 1000m = 1km</span></span>
+<span id="cb91-2"><a href="spatial-analysis.html#cb91-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-3"><a href="spatial-analysis.html#cb91-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(elev_snow_stk[[<span class="dv">1</span>]]) <span class="co"># let&#39;s just plot one layer for demonstration</span></span>
+<span id="cb91-4"><a href="spatial-analysis.html#cb91-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(site_buff_5km), <span class="at">lwd =</span> <span class="dv">1</span>, <span class="at">add =</span> T)</span></code></pre></div>
 <p><img src="_main_files/figure-html/buffer-1.png" width="672" /></p>
 <p>Now let’s crop the raster to this buffer’s extent. We’ll use the function <code>crop()</code>, which takes in the raster object we want to crop and an “extent object, or any object from which an Extent object can be extracted” (quoted from the <code>crop</code> help file). Because we can make an extent object from our buffer</p>
-<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="spatial-analysis.html#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">extent</span>(site_buff_5km)</span></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="spatial-analysis.html#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">extent</span>(site_buff_5km)</span></code></pre></div>
 <pre><code>## class      : Extent 
 ## xmin       : 449023.6 
 ## xmax       : 459023.6 
 ## ymin       : 4590255 
 ## ymax       : 4600255</code></pre>
 <p>We can input our buffer object directly into <code>crop()</code></p>
-<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="spatial-analysis.html#cb84-1" aria-hidden="true" tabindex="-1"></a>stack_crop <span class="ot">&lt;-</span> <span class="fu">crop</span>(elev_snow_stk, site_buff_5km)</span></code></pre></div>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="spatial-analysis.html#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(stack_crop[[<span class="dv">1</span>]])</span>
-<span id="cb85-2"><a href="spatial-analysis.html#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(site_buff_5km), <span class="at">add =</span> T)</span>
-<span id="cb85-3"><a href="spatial-analysis.html#cb85-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(site_sf_rast_01), <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">add =</span> T)</span></code></pre></div>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="spatial-analysis.html#cb94-1" aria-hidden="true" tabindex="-1"></a>stack_crop <span class="ot">&lt;-</span> <span class="fu">crop</span>(elev_snow_stk, site_buff_5km)</span></code></pre></div>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="spatial-analysis.html#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(stack_crop[[<span class="dv">1</span>]])</span>
+<span id="cb95-2"><a href="spatial-analysis.html#cb95-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(site_buff_5km), <span class="at">add =</span> T)</span>
+<span id="cb95-3"><a href="spatial-analysis.html#cb95-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(site_sf_rast_01), <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">add =</span> T)</span></code></pre></div>
 <p><img src="_main_files/figure-html/plotSilent-1.png" width="672" /></p>
 <p>Great! Now let’s calculate the mean, median, min/max, and standard deviation of the elevation, SWE, and snow depth within this area.</p>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="spatial-analysis.html#cb86-1" aria-hidden="true" tabindex="-1"></a>stack_stats <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb86-2"><a href="spatial-analysis.html#cb86-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">mean_5km =</span> <span class="fu">cellStats</span>(stack_crop, <span class="at">stat =</span> <span class="st">&quot;mean&quot;</span>),</span>
-<span id="cb86-3"><a href="spatial-analysis.html#cb86-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">median_5km =</span> <span class="fu">cellStats</span>(stack_crop, <span class="at">stat =</span> <span class="st">&quot;median&quot;</span>),</span>
-<span id="cb86-4"><a href="spatial-analysis.html#cb86-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_5km =</span> <span class="fu">cellStats</span>(stack_crop, <span class="at">stat =</span> <span class="st">&quot;min&quot;</span>),</span>
-<span id="cb86-5"><a href="spatial-analysis.html#cb86-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_5km =</span> <span class="fu">cellStats</span>(stack_crop, <span class="at">stat =</span> <span class="st">&quot;max&quot;</span>),</span>
-<span id="cb86-6"><a href="spatial-analysis.html#cb86-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">sd_5km =</span> <span class="fu">cellStats</span>(stack_crop, <span class="at">stat =</span> <span class="st">&quot;sd&quot;</span>))</span>
-<span id="cb86-7"><a href="spatial-analysis.html#cb86-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb86-8"><a href="spatial-analysis.html#cb86-8" aria-hidden="true" tabindex="-1"></a><span class="co"># let&#39;s add a column for the environment type from the raster and remove the row names</span></span>
-<span id="cb86-9"><a href="spatial-analysis.html#cb86-9" aria-hidden="true" tabindex="-1"></a>stack_stats<span class="sc">$</span>environment <span class="ot">&lt;-</span> <span class="fu">row.names</span>(stack_stats)</span>
-<span id="cb86-10"><a href="spatial-analysis.html#cb86-10" aria-hidden="true" tabindex="-1"></a><span class="fu">row.names</span>(stack_stats) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb86-11"><a href="spatial-analysis.html#cb86-11" aria-hidden="true" tabindex="-1"></a>stack_stats</span></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="spatial-analysis.html#cb96-1" aria-hidden="true" tabindex="-1"></a>stack_stats <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb96-2"><a href="spatial-analysis.html#cb96-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">mean_5km =</span> <span class="fu">cellStats</span>(stack_crop, <span class="at">stat =</span> <span class="st">&quot;mean&quot;</span>),</span>
+<span id="cb96-3"><a href="spatial-analysis.html#cb96-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">median_5km =</span> <span class="fu">cellStats</span>(stack_crop, <span class="at">stat =</span> <span class="st">&quot;median&quot;</span>),</span>
+<span id="cb96-4"><a href="spatial-analysis.html#cb96-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_5km =</span> <span class="fu">cellStats</span>(stack_crop, <span class="at">stat =</span> <span class="st">&quot;min&quot;</span>),</span>
+<span id="cb96-5"><a href="spatial-analysis.html#cb96-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_5km =</span> <span class="fu">cellStats</span>(stack_crop, <span class="at">stat =</span> <span class="st">&quot;max&quot;</span>),</span>
+<span id="cb96-6"><a href="spatial-analysis.html#cb96-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">sd_5km =</span> <span class="fu">cellStats</span>(stack_crop, <span class="at">stat =</span> <span class="st">&quot;sd&quot;</span>))</span>
+<span id="cb96-7"><a href="spatial-analysis.html#cb96-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-8"><a href="spatial-analysis.html#cb96-8" aria-hidden="true" tabindex="-1"></a><span class="co"># let&#39;s add a column for the environment type from the raster and remove the row names</span></span>
+<span id="cb96-9"><a href="spatial-analysis.html#cb96-9" aria-hidden="true" tabindex="-1"></a>stack_stats<span class="sc">$</span>environment <span class="ot">&lt;-</span> <span class="fu">row.names</span>(stack_stats)</span>
+<span id="cb96-10"><a href="spatial-analysis.html#cb96-10" aria-hidden="true" tabindex="-1"></a><span class="fu">row.names</span>(stack_stats) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb96-11"><a href="spatial-analysis.html#cb96-11" aria-hidden="true" tabindex="-1"></a>stack_stats</span></code></pre></div>
 <pre><code>##    mean_5km median_5km  min_5km max_5km   sd_5km environment
 ## 1 2226.9138   2155.127 1791.435    2751 248.3925   elevation
 ## 2  355.8968    337.000  216.000     608 108.8653         swe
 ## 3 1162.7375   1099.000  726.000    1925 342.0622  snow_depth</code></pre>
-<p>We have our stats, but we want to join them with our sites data frame to make them more meaningful. We can’t use the function <code>cbind()</code> because the number of rows don’t match up. Instead, we can use <code>dyplyr</code>’s function <code>bind_cols()</code>, which works just like <code>cbind()</code> or <code>do.call(cbind, x)</code> except that it’s a bit smarter and can add <code>NA</code>s if the number of rows or columns doesn’t match.</p>
-<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="spatial-analysis.html#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_cols</span>(site_sf_rast_01, stack_stats)</span></code></pre></div>
+<p>We have our stats, but we want to join them with our sites data frame to make them more meaningful. We can’t use the function <code>cbind()</code> because the number of rows don’t match up. Instead, we can use <code>dplyr</code>’s function <code>bind_cols()</code>, which works just like <code>cbind()</code> or <code>do.call(cbind, x)</code> except that it’s a bit smarter and can add <code>NA</code>s if the number of rows or columns doesn’t match.</p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="spatial-analysis.html#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_cols</span>(site_sf_rast_01, stack_stats)</span></code></pre></div>
 <pre><code>## Simple feature collection with 3 features and 12 fields
 ## Geometry type: POINT
 ## Dimension:     XY
@@ -758,82 +816,82 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="a-note-about-loops" class="section level2 hasAnchor" number="4.9">
 <h2><span class="header-section-number">4.9</span> A Note About Loops<a href="spatial-analysis.html#a-note-about-loops" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Learning all these functions is all well and good, but what if you have to perform them all on multiple features or rasters? Of course, you can always copy and paste, but that can soon become confusing and messy and cause your code to be inefficient. The better way to address this is with loops! <code>for</code> loops and <code>lapply</code> are lifesavers and I use them in all of my code. A previous workshop went into more depth on how to use loops, so I won’t go over them in too much detail. But I do want to show some ways you can use them for GIS applications.</p>
+<p>Learning all these functions is all well and good, but what if you have to perform them all on multiple features or rasters? Copying and pasting code over and over again can soon become confusing and messy and cause your code to be inefficient. The better way to address this is (in my opinion) with loops! <code>for</code> loops and <code>lapply</code> are lifesavers and I use them in all of my code. A previous workshop went into more depth on how to use loops, so I won’t go over them in too much detail. But I do want to show some ways you can use them for GIS applications.</p>
 <p>(These code chunks are for demonstration only, these data and directories don’t actually exist)</p>
-<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="spatial-analysis.html#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 1: Load a set of shapefiles and find the area for each</span></span>
-<span id="cb90-2"><a href="spatial-analysis.html#cb90-2" aria-hidden="true" tabindex="-1"></a>filenames <span class="ot">&lt;-</span> <span class="fu">list.files</span>(dir) <span class="co"># get a list of shapefile names in a directory</span></span>
-<span id="cb90-3"><a href="spatial-analysis.html#cb90-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb90-4"><a href="spatial-analysis.html#cb90-4" aria-hidden="true" tabindex="-1"></a>area_list <span class="ot">&lt;-</span> <span class="fu">c</span>() <span class="co"># create an empty vector for the areas to live in </span></span>
-<span id="cb90-5"><a href="spatial-analysis.html#cb90-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb90-6"><a href="spatial-analysis.html#cb90-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(filenames)){</span>
-<span id="cb90-7"><a href="spatial-analysis.html#cb90-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># load the shapefile</span></span>
-<span id="cb90-8"><a href="spatial-analysis.html#cb90-8" aria-hidden="true" tabindex="-1"></a>  shp <span class="ot">&lt;-</span> <span class="fu">st_read</span>(filenames[i])</span>
-<span id="cb90-9"><a href="spatial-analysis.html#cb90-9" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb90-10"><a href="spatial-analysis.html#cb90-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># calculate the area</span></span>
-<span id="cb90-11"><a href="spatial-analysis.html#cb90-11" aria-hidden="true" tabindex="-1"></a>  area <span class="ot">&lt;-</span> <span class="fu">st_area</span>(shp)</span>
-<span id="cb90-12"><a href="spatial-analysis.html#cb90-12" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb90-13"><a href="spatial-analysis.html#cb90-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># put the area into the vector</span></span>
-<span id="cb90-14"><a href="spatial-analysis.html#cb90-14" aria-hidden="true" tabindex="-1"></a>  area_list <span class="ot">&lt;-</span> <span class="fu">c</span>(area_list, area)</span>
-<span id="cb90-15"><a href="spatial-analysis.html#cb90-15" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb90-16"><a href="spatial-analysis.html#cb90-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb90-17"><a href="spatial-analysis.html#cb90-17" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------------------------------------------------------X</span></span>
-<span id="cb90-18"><a href="spatial-analysis.html#cb90-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb90-19"><a href="spatial-analysis.html#cb90-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 2: Load a set of shapefiles, generate a buffer for each, and calculate the  #            mean value of a raster within that buffer and the focal feature</span></span>
-<span id="cb90-20"><a href="spatial-analysis.html#cb90-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb90-21"><a href="spatial-analysis.html#cb90-21" aria-hidden="true" tabindex="-1"></a>filenames <span class="ot">&lt;-</span> <span class="fu">list.files</span>(dir) <span class="co"># get a list of shapefile names in a directory</span></span>
-<span id="cb90-22"><a href="spatial-analysis.html#cb90-22" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">raster</span>(raster_filename) <span class="co"># load a raster</span></span>
-<span id="cb90-23"><a href="spatial-analysis.html#cb90-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb90-24"><a href="spatial-analysis.html#cb90-24" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(filenames, <span class="cf">function</span>(fn){</span>
-<span id="cb90-25"><a href="spatial-analysis.html#cb90-25" aria-hidden="true" tabindex="-1"></a>  <span class="co"># load a shapefile</span></span>
-<span id="cb90-26"><a href="spatial-analysis.html#cb90-26" aria-hidden="true" tabindex="-1"></a>  shp <span class="ot">&lt;-</span> <span class="fu">st_read</span>(fn)</span>
-<span id="cb90-27"><a href="spatial-analysis.html#cb90-27" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb90-28"><a href="spatial-analysis.html#cb90-28" aria-hidden="true" tabindex="-1"></a>  <span class="co"># generate a 10kmX10km buffer </span></span>
-<span id="cb90-29"><a href="spatial-analysis.html#cb90-29" aria-hidden="true" tabindex="-1"></a>  buffer <span class="ot">&lt;-</span> <span class="fu">st_buffer</span>(shp, <span class="at">dist =</span> <span class="dv">10000</span>)</span>
-<span id="cb90-30"><a href="spatial-analysis.html#cb90-30" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb90-31"><a href="spatial-analysis.html#cb90-31" aria-hidden="true" tabindex="-1"></a>  <span class="co"># crop the raster to the shape and the buffer</span></span>
-<span id="cb90-32"><a href="spatial-analysis.html#cb90-32" aria-hidden="true" tabindex="-1"></a>  r_shp <span class="ot">&lt;-</span> <span class="fu">crop</span>(r, <span class="fu">extent</span>(shp))</span>
-<span id="cb90-33"><a href="spatial-analysis.html#cb90-33" aria-hidden="true" tabindex="-1"></a>  r_buffer <span class="ot">&lt;-</span> <span class="fu">crop</span>(r, <span class="fu">extent</span>(buffer))</span>
-<span id="cb90-34"><a href="spatial-analysis.html#cb90-34" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb90-35"><a href="spatial-analysis.html#cb90-35" aria-hidden="true" tabindex="-1"></a>  <span class="co"># calculate the mean value of the raster within the buffer and the feature</span></span>
-<span id="cb90-36"><a href="spatial-analysis.html#cb90-36" aria-hidden="true" tabindex="-1"></a>  r_shp_mean <span class="ot">&lt;-</span> <span class="fu">cellStats</span>(r_shp, <span class="at">stat =</span> <span class="st">&quot;mean&quot;</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb90-37"><a href="spatial-analysis.html#cb90-37" aria-hidden="true" tabindex="-1"></a>  r_buff_mean <span class="ot">&lt;-</span> <span class="fu">cellStats</span>(r_shp, <span class="at">stat =</span> <span class="st">&quot;mean&quot;</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb90-38"><a href="spatial-analysis.html#cb90-38" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb90-39"><a href="spatial-analysis.html#cb90-39" aria-hidden="true" tabindex="-1"></a>  <span class="co"># return both means in a list</span></span>
-<span id="cb90-40"><a href="spatial-analysis.html#cb90-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(r_shp_mean, r_buff_mean))</span>
-<span id="cb90-41"><a href="spatial-analysis.html#cb90-41" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb90-42"><a href="spatial-analysis.html#cb90-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb90-43"><a href="spatial-analysis.html#cb90-43" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------------------------------------------------------X</span></span>
-<span id="cb90-44"><a href="spatial-analysis.html#cb90-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb90-45"><a href="spatial-analysis.html#cb90-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 3: Generate a raster of the sum from a set of RasterStacks</span></span>
-<span id="cb90-46"><a href="spatial-analysis.html#cb90-46" aria-hidden="true" tabindex="-1"></a><span class="co">#            and then save the output raster</span></span>
-<span id="cb90-47"><a href="spatial-analysis.html#cb90-47" aria-hidden="true" tabindex="-1"></a>filenames <span class="ot">&lt;-</span> <span class="fu">list.files</span>(dir) <span class="co"># get a list of raster files in a directory</span></span>
-<span id="cb90-48"><a href="spatial-analysis.html#cb90-48" aria-hidden="true" tabindex="-1"></a>out_names <span class="ot">&lt;-</span> <span class="fu">paste0</span>(filenames, <span class="st">&quot;_sum&quot;</span>)</span>
-<span id="cb90-49"><a href="spatial-analysis.html#cb90-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb90-50"><a href="spatial-analysis.html#cb90-50" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(filenames), <span class="cf">function</span>(i){</span>
-<span id="cb90-51"><a href="spatial-analysis.html#cb90-51" aria-hidden="true" tabindex="-1"></a>  <span class="co"># load RasterStak</span></span>
-<span id="cb90-52"><a href="spatial-analysis.html#cb90-52" aria-hidden="true" tabindex="-1"></a>  stk <span class="ot">&lt;-</span> <span class="fu">stack</span>(filenames[i])</span>
-<span id="cb90-53"><a href="spatial-analysis.html#cb90-53" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb90-54"><a href="spatial-analysis.html#cb90-54" aria-hidden="true" tabindex="-1"></a>  <span class="co"># create a raster that is the sum of all layers in the stack</span></span>
-<span id="cb90-55"><a href="spatial-analysis.html#cb90-55" aria-hidden="true" tabindex="-1"></a>  sum <span class="ot">&lt;-</span> <span class="fu">calc</span>(stk, <span class="at">fun =</span> sum)</span>
-<span id="cb90-56"><a href="spatial-analysis.html#cb90-56" aria-hidden="true" tabindex="-1"></a>  sum <span class="ot">&lt;-</span> <span class="fu">sum</span>(stk) <span class="co"># these two operations are equivalent</span></span>
-<span id="cb90-57"><a href="spatial-analysis.html#cb90-57" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb90-58"><a href="spatial-analysis.html#cb90-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">writeRaster</span>(sum, out_names[i], <span class="at">format =</span> <span class="st">&quot;GTiff&quot;</span>)</span>
-<span id="cb90-59"><a href="spatial-analysis.html#cb90-59" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb90-60"><a href="spatial-analysis.html#cb90-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb90-61"><a href="spatial-analysis.html#cb90-61" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------------------------------------------------------X</span></span>
-<span id="cb90-62"><a href="spatial-analysis.html#cb90-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb90-63"><a href="spatial-analysis.html#cb90-63" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 4: Pull the number of zeros in a set of rasters</span></span>
-<span id="cb90-64"><a href="spatial-analysis.html#cb90-64" aria-hidden="true" tabindex="-1"></a>filenames <span class="ot">&lt;-</span> <span class="fu">list.files</span>(dir) <span class="co"># get a list of raster files in a directory</span></span>
-<span id="cb90-65"><a href="spatial-analysis.html#cb90-65" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(filenames, <span class="cf">function</span>(fn){</span>
-<span id="cb90-66"><a href="spatial-analysis.html#cb90-66" aria-hidden="true" tabindex="-1"></a>  <span class="co"># load raster</span></span>
-<span id="cb90-67"><a href="spatial-analysis.html#cb90-67" aria-hidden="true" tabindex="-1"></a>  rast <span class="ot">&lt;-</span> <span class="fu">raster</span>(fn)</span>
-<span id="cb90-68"><a href="spatial-analysis.html#cb90-68" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb90-69"><a href="spatial-analysis.html#cb90-69" aria-hidden="true" tabindex="-1"></a>  <span class="co"># get the number of zeros in the raster</span></span>
-<span id="cb90-70"><a href="spatial-analysis.html#cb90-70" aria-hidden="true" tabindex="-1"></a>  n_0 <span class="ot">&lt;-</span> <span class="fu">getValues</span>(rast) <span class="sc">==</span> <span class="dv">0</span> <span class="sc">%&gt;%</span></span>
-<span id="cb90-71"><a href="spatial-analysis.html#cb90-71" aria-hidden="true" tabindex="-1"></a>      <span class="fu">which</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb90-72"><a href="spatial-analysis.html#cb90-72" aria-hidden="true" tabindex="-1"></a>      <span class="fu">length</span>()</span>
-<span id="cb90-73"><a href="spatial-analysis.html#cb90-73" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(n_0)</span>
-<span id="cb90-74"><a href="spatial-analysis.html#cb90-74" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="spatial-analysis.html#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 1: Load a set of shapefiles and find the area for each</span></span>
+<span id="cb100-2"><a href="spatial-analysis.html#cb100-2" aria-hidden="true" tabindex="-1"></a>filenames <span class="ot">&lt;-</span> <span class="fu">list.files</span>(dir) <span class="co"># get a list of shapefile names in a directory</span></span>
+<span id="cb100-3"><a href="spatial-analysis.html#cb100-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb100-4"><a href="spatial-analysis.html#cb100-4" aria-hidden="true" tabindex="-1"></a>area_list <span class="ot">&lt;-</span> <span class="fu">c</span>() <span class="co"># create an empty vector for the areas to live in </span></span>
+<span id="cb100-5"><a href="spatial-analysis.html#cb100-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb100-6"><a href="spatial-analysis.html#cb100-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(filenames)){</span>
+<span id="cb100-7"><a href="spatial-analysis.html#cb100-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># load the shapefile</span></span>
+<span id="cb100-8"><a href="spatial-analysis.html#cb100-8" aria-hidden="true" tabindex="-1"></a>  shp <span class="ot">&lt;-</span> <span class="fu">st_read</span>(filenames[i])</span>
+<span id="cb100-9"><a href="spatial-analysis.html#cb100-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb100-10"><a href="spatial-analysis.html#cb100-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># calculate the area</span></span>
+<span id="cb100-11"><a href="spatial-analysis.html#cb100-11" aria-hidden="true" tabindex="-1"></a>  area <span class="ot">&lt;-</span> <span class="fu">st_area</span>(shp)</span>
+<span id="cb100-12"><a href="spatial-analysis.html#cb100-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb100-13"><a href="spatial-analysis.html#cb100-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># put the area into the vector</span></span>
+<span id="cb100-14"><a href="spatial-analysis.html#cb100-14" aria-hidden="true" tabindex="-1"></a>  area_list <span class="ot">&lt;-</span> <span class="fu">c</span>(area_list, area)</span>
+<span id="cb100-15"><a href="spatial-analysis.html#cb100-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb100-16"><a href="spatial-analysis.html#cb100-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb100-17"><a href="spatial-analysis.html#cb100-17" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------------------------------------------------------X</span></span>
+<span id="cb100-18"><a href="spatial-analysis.html#cb100-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb100-19"><a href="spatial-analysis.html#cb100-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 2: Load a set of shapefiles, generate a buffer for each, and calculate the  #            mean value of a raster within that buffer and the focal feature</span></span>
+<span id="cb100-20"><a href="spatial-analysis.html#cb100-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb100-21"><a href="spatial-analysis.html#cb100-21" aria-hidden="true" tabindex="-1"></a>filenames <span class="ot">&lt;-</span> <span class="fu">list.files</span>(dir) <span class="co"># get a list of shapefile names in a directory</span></span>
+<span id="cb100-22"><a href="spatial-analysis.html#cb100-22" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">raster</span>(raster_filename) <span class="co"># load a raster</span></span>
+<span id="cb100-23"><a href="spatial-analysis.html#cb100-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb100-24"><a href="spatial-analysis.html#cb100-24" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(filenames, <span class="cf">function</span>(fn){</span>
+<span id="cb100-25"><a href="spatial-analysis.html#cb100-25" aria-hidden="true" tabindex="-1"></a>  <span class="co"># load a shapefile</span></span>
+<span id="cb100-26"><a href="spatial-analysis.html#cb100-26" aria-hidden="true" tabindex="-1"></a>  shp <span class="ot">&lt;-</span> <span class="fu">st_read</span>(fn)</span>
+<span id="cb100-27"><a href="spatial-analysis.html#cb100-27" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb100-28"><a href="spatial-analysis.html#cb100-28" aria-hidden="true" tabindex="-1"></a>  <span class="co"># generate a 10kmX10km buffer </span></span>
+<span id="cb100-29"><a href="spatial-analysis.html#cb100-29" aria-hidden="true" tabindex="-1"></a>  buffer <span class="ot">&lt;-</span> <span class="fu">st_buffer</span>(shp, <span class="at">dist =</span> <span class="dv">10000</span>)</span>
+<span id="cb100-30"><a href="spatial-analysis.html#cb100-30" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb100-31"><a href="spatial-analysis.html#cb100-31" aria-hidden="true" tabindex="-1"></a>  <span class="co"># crop the raster to the shape and the buffer</span></span>
+<span id="cb100-32"><a href="spatial-analysis.html#cb100-32" aria-hidden="true" tabindex="-1"></a>  r_shp <span class="ot">&lt;-</span> <span class="fu">crop</span>(r, <span class="fu">extent</span>(shp))</span>
+<span id="cb100-33"><a href="spatial-analysis.html#cb100-33" aria-hidden="true" tabindex="-1"></a>  r_buffer <span class="ot">&lt;-</span> <span class="fu">crop</span>(r, <span class="fu">extent</span>(buffer))</span>
+<span id="cb100-34"><a href="spatial-analysis.html#cb100-34" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb100-35"><a href="spatial-analysis.html#cb100-35" aria-hidden="true" tabindex="-1"></a>  <span class="co"># calculate the mean value of the raster within the buffer and the feature</span></span>
+<span id="cb100-36"><a href="spatial-analysis.html#cb100-36" aria-hidden="true" tabindex="-1"></a>  r_shp_mean <span class="ot">&lt;-</span> <span class="fu">cellStats</span>(r_shp, <span class="at">stat =</span> <span class="st">&quot;mean&quot;</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb100-37"><a href="spatial-analysis.html#cb100-37" aria-hidden="true" tabindex="-1"></a>  r_buff_mean <span class="ot">&lt;-</span> <span class="fu">cellStats</span>(r_shp, <span class="at">stat =</span> <span class="st">&quot;mean&quot;</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb100-38"><a href="spatial-analysis.html#cb100-38" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb100-39"><a href="spatial-analysis.html#cb100-39" aria-hidden="true" tabindex="-1"></a>  <span class="co"># return both means in a list</span></span>
+<span id="cb100-40"><a href="spatial-analysis.html#cb100-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(r_shp_mean, r_buff_mean))</span>
+<span id="cb100-41"><a href="spatial-analysis.html#cb100-41" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb100-42"><a href="spatial-analysis.html#cb100-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb100-43"><a href="spatial-analysis.html#cb100-43" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------------------------------------------------------X</span></span>
+<span id="cb100-44"><a href="spatial-analysis.html#cb100-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb100-45"><a href="spatial-analysis.html#cb100-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 3: Generate a raster of the sum from a set of RasterStacks</span></span>
+<span id="cb100-46"><a href="spatial-analysis.html#cb100-46" aria-hidden="true" tabindex="-1"></a><span class="co">#            and then save the output raster</span></span>
+<span id="cb100-47"><a href="spatial-analysis.html#cb100-47" aria-hidden="true" tabindex="-1"></a>filenames <span class="ot">&lt;-</span> <span class="fu">list.files</span>(dir) <span class="co"># get a list of raster files in a directory</span></span>
+<span id="cb100-48"><a href="spatial-analysis.html#cb100-48" aria-hidden="true" tabindex="-1"></a>out_names <span class="ot">&lt;-</span> <span class="fu">paste0</span>(filenames, <span class="st">&quot;_sum&quot;</span>)</span>
+<span id="cb100-49"><a href="spatial-analysis.html#cb100-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb100-50"><a href="spatial-analysis.html#cb100-50" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(filenames), <span class="cf">function</span>(i){</span>
+<span id="cb100-51"><a href="spatial-analysis.html#cb100-51" aria-hidden="true" tabindex="-1"></a>  <span class="co"># load RasterStak</span></span>
+<span id="cb100-52"><a href="spatial-analysis.html#cb100-52" aria-hidden="true" tabindex="-1"></a>  stk <span class="ot">&lt;-</span> <span class="fu">stack</span>(filenames[i])</span>
+<span id="cb100-53"><a href="spatial-analysis.html#cb100-53" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb100-54"><a href="spatial-analysis.html#cb100-54" aria-hidden="true" tabindex="-1"></a>  <span class="co"># create a raster that is the sum of all layers in the stack</span></span>
+<span id="cb100-55"><a href="spatial-analysis.html#cb100-55" aria-hidden="true" tabindex="-1"></a>  sum <span class="ot">&lt;-</span> <span class="fu">calc</span>(stk, <span class="at">fun =</span> sum)</span>
+<span id="cb100-56"><a href="spatial-analysis.html#cb100-56" aria-hidden="true" tabindex="-1"></a>  sum <span class="ot">&lt;-</span> <span class="fu">sum</span>(stk) <span class="co"># these two operations are equivalent</span></span>
+<span id="cb100-57"><a href="spatial-analysis.html#cb100-57" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb100-58"><a href="spatial-analysis.html#cb100-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">writeRaster</span>(sum, out_names[i], <span class="at">format =</span> <span class="st">&quot;GTiff&quot;</span>)</span>
+<span id="cb100-59"><a href="spatial-analysis.html#cb100-59" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb100-60"><a href="spatial-analysis.html#cb100-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb100-61"><a href="spatial-analysis.html#cb100-61" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------------------------------------------------------X</span></span>
+<span id="cb100-62"><a href="spatial-analysis.html#cb100-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb100-63"><a href="spatial-analysis.html#cb100-63" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 4: Pull the number of zeros in a set of rasters</span></span>
+<span id="cb100-64"><a href="spatial-analysis.html#cb100-64" aria-hidden="true" tabindex="-1"></a>filenames <span class="ot">&lt;-</span> <span class="fu">list.files</span>(dir) <span class="co"># get a list of raster files in a directory</span></span>
+<span id="cb100-65"><a href="spatial-analysis.html#cb100-65" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(filenames, <span class="cf">function</span>(fn){</span>
+<span id="cb100-66"><a href="spatial-analysis.html#cb100-66" aria-hidden="true" tabindex="-1"></a>  <span class="co"># load raster</span></span>
+<span id="cb100-67"><a href="spatial-analysis.html#cb100-67" aria-hidden="true" tabindex="-1"></a>  rast <span class="ot">&lt;-</span> <span class="fu">raster</span>(fn)</span>
+<span id="cb100-68"><a href="spatial-analysis.html#cb100-68" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb100-69"><a href="spatial-analysis.html#cb100-69" aria-hidden="true" tabindex="-1"></a>  <span class="co"># get the number of zeros in the raster</span></span>
+<span id="cb100-70"><a href="spatial-analysis.html#cb100-70" aria-hidden="true" tabindex="-1"></a>  n_0 <span class="ot">&lt;-</span> <span class="fu">getValues</span>(rast) <span class="sc">==</span> <span class="dv">0</span> <span class="sc">%&gt;%</span></span>
+<span id="cb100-71"><a href="spatial-analysis.html#cb100-71" aria-hidden="true" tabindex="-1"></a>      <span class="fu">which</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb100-72"><a href="spatial-analysis.html#cb100-72" aria-hidden="true" tabindex="-1"></a>      <span class="fu">length</span>()</span>
+<span id="cb100-73"><a href="spatial-analysis.html#cb100-73" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(n_0)</span>
+<span id="cb100-74"><a href="spatial-analysis.html#cb100-74" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
 <p>Even more efficient would be to run these in parallel, but that is way beyond the scope of this workshop</p>
 <hr />
 <p>I hope these functions helped you! The next chapter goes over some ways of obtaining the data we worked on today.</p>
