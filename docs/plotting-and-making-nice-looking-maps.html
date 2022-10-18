@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 6 Plotting and Making Nice-Looking Maps | R Spatial Workshop</title>
+  <meta name="description" content="This workshop was created for USU’s Ecology Center R workshops on R Spatial." />
+  <meta name="generator" content="bookdown 0.25 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 6 Plotting and Making Nice-Looking Maps | R Spatial Workshop" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This workshop was created for USU’s Ecology Center R workshops on R Spatial." />
+  <meta name="github-repo" content="ronanhart/R_spatial_workshop" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 6 Plotting and Making Nice-Looking Maps | R Spatial Workshop" />
+  
+  <meta name="twitter:description" content="This workshop was created for USU’s Ecology Center R workshops on R Spatial." />
+  
+
+<meta name="author" content="Ronan Hart" />
+
+
+<meta name="date" content="2022-10-26" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="where-to-obtain-data-further-resources.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Ecology Center: R Spatial Workshop</a></li>
+
+<li class="divider"></li>
+<li><a href="index.html#welcome-to-the-ecology-centers-workshop-on-r-spatial" id="toc-welcome-to-the-ecology-centers-workshop-on-r-spatial"><span class="toc-section-number">1</span> Welcome to the Ecology Center’s Workshop on R Spatial!<span></span></a>
+<ul>
+<li><a href="index.html#why-gis-in-r" id="toc-why-gis-in-r">Why GIS in R?<span></span></a></li>
+<li><a href="index.html#prerequisites-packages-and-preparation" id="toc-prerequisites-packages-and-preparation">Prerequisites, Packages, and Preparation<span></span></a></li>
+</ul></li>
+<li><a href="gis-basics.html#gis-basics" id="toc-gis-basics"><span class="toc-section-number">2</span> GIS basics<span></span></a>
+<ul>
+<li><a href="gis-basics.html#datums-projections-and-coordinate-systems" id="toc-datums-projections-and-coordinate-systems"><span class="toc-section-number">2.1</span> Datums, Projections, and Coordinate Systems<span></span></a>
+<ul>
+<li><a href="gis-basics.html#datums" id="toc-datums">Datums<span></span></a></li>
+<li><a href="gis-basics.html#projections" id="toc-projections">Projections<span></span></a></li>
+<li><a href="gis-basics.html#coordinate-reference-system" id="toc-coordinate-reference-system">Coordinate Reference System<span></span></a></li>
+</ul></li>
+<li><a href="gis-basics.html#spatial-data" id="toc-spatial-data"><span class="toc-section-number">2.2</span> Spatial Data<span></span></a>
+<ul>
+<li><a href="gis-basics.html#vectors" id="toc-vectors">Vectors<span></span></a></li>
+<li><a href="gis-basics.html#rasters" id="toc-rasters">Rasters<span></span></a></li>
+</ul></li>
+<li><a href="gis-basics.html#vectors-vs-rasters-pros-cons" id="toc-vectors-vs-rasters-pros-cons"><span class="toc-section-number">2.3</span> Vectors vs Rasters: pros &amp; cons<span></span></a></li>
+</ul></li>
+<li><a href="spatial-data-in-r.html#spatial-data-in-r" id="toc-spatial-data-in-r"><span class="toc-section-number">3</span> Spatial Data in R<span></span></a>
+<ul>
+<li><a href="spatial-data-in-r.html#vectors-1" id="toc-vectors-1"><span class="toc-section-number">3.1</span> Vectors<span></span></a>
+<ul>
+<li><a href="spatial-data-in-r.html#loading-vector-data-from-a-spreadsheet" id="toc-loading-vector-data-from-a-spreadsheet"><span class="toc-section-number">3.1.1</span> Loading vector data from a spreadsheet<span></span></a></li>
+<li><a href="spatial-data-in-r.html#loading-vector-data-from-a-shapefile" id="toc-loading-vector-data-from-a-shapefile"><span class="toc-section-number">3.1.2</span> Loading vector data from a shapefile<span></span></a></li>
+<li><a href="spatial-data-in-r.html#projecting-vector-data" id="toc-projecting-vector-data"><span class="toc-section-number">3.1.3</span> Projecting vector data<span></span></a></li>
+<li><a href="spatial-data-in-r.html#saving-vector-data" id="toc-saving-vector-data"><span class="toc-section-number">3.1.4</span> Saving vector data<span></span></a></li>
+<li><a href="spatial-data-in-r.html#a-note-about-sf-and-tidyverse" id="toc-a-note-about-sf-and-tidyverse">A note about <code>sf</code> and <code>tidyverse</code><span></span></a></li>
+<li><a href="spatial-data-in-r.html#your-turn" id="toc-your-turn">Your Turn!<span></span></a></li>
+</ul></li>
+<li><a href="spatial-data-in-r.html#rasters-1" id="toc-rasters-1"><span class="toc-section-number">3.2</span> Rasters<span></span></a>
+<ul>
+<li><a href="spatial-data-in-r.html#load-a-raster" id="toc-load-a-raster"><span class="toc-section-number">3.2.1</span> Load a raster<span></span></a></li>
+<li><a href="spatial-data-in-r.html#create-a-raster" id="toc-create-a-raster"><span class="toc-section-number">3.2.2</span> Create a raster<span></span></a></li>
+<li><a href="spatial-data-in-r.html#project-a-raster" id="toc-project-a-raster"><span class="toc-section-number">3.2.3</span> Project a raster<span></span></a></li>
+<li><a href="spatial-data-in-r.html#save-a-raster" id="toc-save-a-raster"><span class="toc-section-number">3.2.4</span> Save a raster<span></span></a></li>
+<li><a href="spatial-data-in-r.html#your-turn-1" id="toc-your-turn-1">Your Turn!<span></span></a></li>
+</ul></li>
+</ul></li>
+<li><a href="spatial-analysis.html#spatial-analysis" id="toc-spatial-analysis"><span class="toc-section-number">4</span> Spatial Analysis<span></span></a>
+<ul>
+<li><a href="spatial-analysis.html#selecting-attributes" id="toc-selecting-attributes"><span class="toc-section-number">4.1</span> Selecting Attributes<span></span></a></li>
+<li><a href="spatial-analysis.html#select-features-by-location" id="toc-select-features-by-location"><span class="toc-section-number">4.2</span> Select features by location<span></span></a></li>
+<li><a href="spatial-analysis.html#joining-attributes" id="toc-joining-attributes"><span class="toc-section-number">4.3</span> Joining Attributes<span></span></a></li>
+<li><a href="spatial-analysis.html#extract-raster-values" id="toc-extract-raster-values"><span class="toc-section-number">4.4</span> Extract Raster Values<span></span></a></li>
+<li><a href="spatial-analysis.html#distance" id="toc-distance"><span class="toc-section-number">4.5</span> Distance<span></span></a></li>
+<li><a href="spatial-analysis.html#calculate-terrain-characteristics" id="toc-calculate-terrain-characteristics"><span class="toc-section-number">4.6</span> Calculate Terrain Characteristics<span></span></a></li>
+<li><a href="spatial-analysis.html#re-classify-rasters" id="toc-re-classify-rasters"><span class="toc-section-number">4.7</span> Re-Classify Rasters<span></span></a></li>
+<li><a href="spatial-analysis.html#raster-cell-stats" id="toc-raster-cell-stats"><span class="toc-section-number">4.8</span> Raster Cell Stats<span></span></a></li>
+<li><a href="spatial-analysis.html#a-note-about-loops" id="toc-a-note-about-loops"><span class="toc-section-number">4.9</span> A Note About Loops<span></span></a></li>
+</ul></li>
+<li><a href="where-to-obtain-data-further-resources.html#where-to-obtain-data-further-resources" id="toc-where-to-obtain-data-further-resources"><span class="toc-section-number">5</span> Where to Obtain Data &amp; Further Resources<span></span></a>
+<ul>
+<li><a href="where-to-obtain-data-further-resources.html#data-sources" id="toc-data-sources"><span class="toc-section-number">5.1</span> Data Sources<span></span></a>
+<ul>
+<li><a href="where-to-obtain-data-further-resources.html#maps-package" id="toc-maps-package"><span class="toc-section-number">5.1.1</span> <code>maps</code> package<span></span></a></li>
+<li><a href="where-to-obtain-data-further-resources.html#utah-gis" id="toc-utah-gis"><span class="toc-section-number">5.1.2</span> Utah GIS<span></span></a></li>
+<li><a href="where-to-obtain-data-further-resources.html#other-environmental-rasters" id="toc-other-environmental-rasters"><span class="toc-section-number">5.1.3</span> Other Environmental Rasters<span></span></a></li>
+</ul></li>
+<li><a href="where-to-obtain-data-further-resources.html#more-resources" id="toc-more-resources"><span class="toc-section-number">5.2</span> More Resources<span></span></a>
+<ul>
+<li><a href="where-to-obtain-data-further-resources.html#learn-more-about-gis-in-general" id="toc-learn-more-about-gis-in-general"><span class="toc-section-number">5.2.1</span> Learn more about GIS in general<span></span></a></li>
+</ul></li>
+<li><a href="where-to-obtain-data-further-resources.html#acknowledgements" id="toc-acknowledgements"><span class="toc-section-number">5.3</span> Acknowledgements<span></span></a>
+<ul>
+<li><a href="where-to-obtain-data-further-resources.html#figure-citations" id="toc-figure-citations"><span class="toc-section-number">5.3.1</span> Figure Citations<span></span></a></li>
+</ul></li>
+</ul></li>
+<li><a href="plotting-and-making-nice-looking-maps.html#plotting-and-making-nice-looking-maps" id="toc-plotting-and-making-nice-looking-maps"><span class="toc-section-number">6</span> Plotting and Making Nice-Looking Maps<span></span></a>
+<ul>
+<li><a href="plotting-and-making-nice-looking-maps.html#insets" id="toc-insets"><span class="toc-section-number">6.1</span> Insets<span></span></a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R Spatial Workshop</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="plotting-and-making-nice-looking-maps" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">Chapter 6</span> Plotting and Making Nice-Looking Maps<a href="plotting-and-making-nice-looking-maps.html#plotting-and-making-nice-looking-maps" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="insets" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> Insets<a href="plotting-and-making-nice-looking-maps.html#insets" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><code>cowplot</code> package</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="where-to-obtain-data-further-resources.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://https://github.com/ronanhart/R_spatial_workshop/05-Plotting.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

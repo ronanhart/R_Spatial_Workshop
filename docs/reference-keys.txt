@@ -52,3 +52,5 @@ figure-citations
 url-your-book-url-like-httpsbookdown.orgyihuibookdown
 loading-vector-data-from-a-shapefile
 re-classify-rasters
+plotting-and-making-nice-looking-maps
+insets
