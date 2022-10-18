@@ -1,0 +1,272 @@
+```{r packages, echo = F, eval = T, message = F}
+library(maps)
+library(raster)
+library(sf)
+library(tidyverse)
+```
+
+# GIS basics
+
+## Datums, Projections, and Coordinate Systems
+
+### Datums {-}
+
+The Earth is a **spheroid** (also called an **ellipsoid**). Because of variations in elevation across the world, the Earth's surface is irregular.
+
+```{r earthSpheroid, fig.cap = "Conceptual representation of the irregular, spheroid shape of the Earth", fig.align = 'center', out.width = '25%', echo = F}
+knitr::include_graphics("pictures/spheroid.png")
+```
+
+A **datum** (also called a **geographic coordinate system**) is a reference surface that best fits the mean surface area of an area of interest. There is a global datum to represent the general surface of the Earth as a whole --- World Geodetic System of 1984 i.e. WGS84.
+
+```{r wgs, fig.cap = "Red ellipse represents the smooth, general surface of the Earth (i.e. a global datum)", fig.align = 'center', out.width = '25%', echo = F}
+knitr::include_graphics("pictures/wgs.png")
+```
+
+   
+However, because the Earth's surface is irregular and the global datum might not reflect specific areas and variations in elevations, there are also local datums. A common local datum (for North America at least) is the North America Datum of 1983 (NAD83) . 
+
+```{r local, fig.cap = "Yellow line indicates a specific area, purple ellipse represents the smooth, general surface of the Earth at this location. Note that this local datum would not be a best fit in other places on the Earth", fig.align = 'center', out.width = '25%', echo = F}
+knitr::include_graphics("pictures/local.png")
+```
+
+ 
+   
+The datum you choose to work with is up to you and where your study takes place. It is **very** important to know what datum you're working with and that you remain consistent because coordinates of a location from one datum are likely different than the same location from a different datum. For example, if we look at the coordinates for Bellingham, Washington:
+
+  Datum  |     Longitude    |	Latitude
+---------| ---------------- | --------------------
+NAD 1983 | -122.46818353793 | 48.74387985**43649**
+WGS 1984 | -122.46818353793 | 48.74387985**34299**
+
+While the differences between NAD83 and WGS84 are not huge, these differences could impact any spatial analysis you perform. Also note that you would need to choose a different local datum if you're working outside of North America.
+ 
+
+### Projections {-}
+
+While a datum references the position of an object in geographic space on a 3D surface, a **projection** (also called a **projected coordinate system**) represents that 3D surface onto a 2D plane. 
+
+```{r project, fig.cap = "Conceptual demonstration of map projections", fig.align = 'center', out.width = '50%', echo = F}
+knitr::include_graphics("pictures/projection.png")
+```
+  
+This is important to know when plotting a map for a figure, as your chosen projection will change the visualization and shape of your map's features. But more importantly for spatial analysis, a projection is needed when you need values such as length, area, or distance. Map projections are never 100% accurate, so every 2D map will have show some distortion. Different projections preserve different properties of the world, such as the relative shape of features, area, distance, or angle. For that reason, it's important to pick a projection that would provide the highest accuracy for your region and the analysis you're running. 
+
+A common projection to use is the **Universal Transverse Mercator** or **UTM**. 
+
+```{r utm, fig.cap = "UTM around the globe", fig.align = 'center', out.width = '50%', echo = F}
+knitr::include_graphics("pictures/utm-1024x512.jpg")
+```
+
+```{r utmUSA, fig.cap = "UTM for the US", fig.align = 'center', out.width = '50%', echo = F}
+knitr::include_graphics("pictures/utm_usa.png")
+```
+
+If your study region is in Utah, for example, you would use UTM Zone 12 N (or UTM 12N).
+
+Note that while you will **always** have a datum, **you do not necessarily need to ALWAYS use a projection.** As for anything, it depends on your analysis and your system.
+
+
+
+### Coordinate Reference System {-}
+
+A **coordinate reference system** or **CRS** is simply the combination of the datum (geographic coordinate system) and the projection (projected coordinate system). For example, if you are working with the 1984 World Geodetic System that is projected to UTM Zone 12N, your CRS would be WGS84 UTM12N. If you are working with the 1983 North America Datum that is projected to UTM Zone 14N, your CRS would be NAD83 UTM14N. And so on.
+
+These different combinations of CRS all have their own **EPSG code.** (These codes were orginally created by the European Petroleum Survey Group, which is where the acronym comes from). 
+
+For example, the EPSG code for WGS84 latitude/longitude (i.e. no projection) is **4326**, the EPSG code for NAD83 UTM12N is **26912**, and so on. These codes can easily be found on [the Spatial Reference Website](https://www.spatialreference.org/) (or google if you forget what the website is).
+
+---------------------------------------------------------------------------------
+
+## Spatial Data
+
+### Vectors {-}
+
+Vector data are shapes with a geometry that can represent real world features. These geometries which can be made up of one or more **vertices and paths**. A vertex describes a position in space with x and y coordinates. A feature with one vertex would be a **point**, a feature with two or more vertices where the first and last vertices don't connect would be a **polyline**, and a feature with at least three vertices and the first and last vertices connect (an enclosed area) would be **polygon**.
+
+* Points
+  + animal positional locations
+  + study site coordinates
+  + tree locations
+* Lines
+  + roads
+  + fences
+  + boundaries
+  + rivers
+* Areas (or polygons)
+  + bodies of water
+  + parks 
+  + USFS land
+  + study plots
+  + area burned by a fire
+
+Example with random vertices:
+
+```{r features, echo = F, eval = T, fig.cap = "Figure demonstrating points (red), polylines (black), and polygon (blue)", fig.align = 'center'}
+
+set.seed(1)
+
+plygn <- matrix(runif(8), ncol = 2)
+plygn[4,] <- plygn[1,]
+plygn <- Polygon(plygn)
+plygn <- Polygons(list(plygn), ID = "area")
+plygn <- SpatialPolygons(list(plygn))
+
+ln <- Line(matrix(runif(10, min(bbox(plygn), max(bbox(plygn)))), ncol = 2))
+ln <- Lines(list(ln), ID = c("ln1")) 
+ln <- SpatialLines(list(ln))
+
+pts <- SpatialPoints(matrix(runif(10, min(bbox(plygn), max(bbox(plygn)))), ncol = 2))
+
+plot(plygn, col = "lightblue", border = "lightblue")
+lines(ln, lwd = 2)
+points(pts, pch = 16, cex = 1, col = "darkred")
+```
+
+Or an example with Utah features:
+
+```{r utahExample, eval = T, echo = F, fig.cap = "Figure demonstrating points (major Utah cities), polylines (major Utah highways), and polygons (shape of Utah boundary)", fig.align = 'center'}
+
+utah <- maps::map("state", plot = F, fill = TRUE) %>%
+  # turn into sf obj
+  sf::st_as_sf() %>%
+  # pull out utah 
+  dplyr::filter(ID == "utah")
+
+ut_city <- us.cities %>%
+  dplyr::filter(country.etc == "UT") %>%
+  sf::st_as_sf(coords = c("long", "lat"), crs = 4326)
+
+fwy <- st_read("Data/Examples/utah_freeway", "utah_freeway", quiet = T) %>%
+  st_transform(crs = 4326)
+
+p <- ggplot() +
+  geom_sf(data = utah, fill = "lightblue") +
+  geom_sf(data = ut_city, col = "darkred") +
+  geom_sf(data = fwy) +
+  theme_void()
+p
+```
+
+Vector features have attributes, which can be text or numerical information that describe the features. These attributes are stored in a data frame. 
+
+```{r attribute, echo = F, eval = T}
+
+ut_city <- us.cities %>%
+  dplyr::filter(country.etc == "UT") %>%
+  rename(state = country.etc) %>%
+  mutate(capital = ifelse(!(capital == 0), 1, 0))
+print(ut_city)
+
+```
+
+The important information you need from your vector data are: 
+
+* the geometry type (if it's a point, line, or polygon)
+* the coordinate reference system
+* the bounding box (the min/max points in x and y geographical space)
+
+
+### Rasters {-}
+
+Rasters are data represented by **pixels** (or **cells**) where each pixel has its own value. These cell values can be **continuous** (e.g. elevation, temperature, snow depth) or **discrete** (e.g. land cover, habitat type, presence/absence).
+
+```{r contDemo, eval = T, echo = F, fig.cap = "Map showing a raster with continuous values (elevation)", fig.align = 'center'}
+dem <- raster("Data/Examples/elevation.tif")
+dem %>%
+  as.data.frame(xy = T) %>%
+  ggplot(aes(x = x, y = y, fill = elevation)) + 
+  geom_raster() +
+  scale_fill_gradient(low = "grey0", high = "grey100", na.value = "transparent") +
+  labs(fill = "Elevation (m)")
+```
+
+```{r discDemo, eval = T, echo = F, fig.cap = "Map showing a raster with discrete values (land cover)", fig.align = 'center'}
+land <- raster("Data/demo/landcover_demo.tif")
+land %>%
+  as.data.frame(xy = T) %>%
+  mutate(Landcover = as.factor(case_when(landcover_demo %in% c(138:184) ~ 1,
+                                         landcover_demo %in% c(312:445) ~ 2,
+                                         landcover_demo %in% c(490:495) ~ 3,
+                                         landcover_demo %in% c(529) ~ 4,
+                                         landcover_demo %in% c(554) ~ 5,
+                                         landcover_demo %in% c(557) ~ 6,
+                                         landcover_demo %in% c(579) ~ 7,
+                                         landcover_demo %in% c(581:582) ~ 8))) %>%
+  ggplot(aes(x = x, y = y, fill = Landcover)) + 
+  geom_raster() +
+  scale_fill_manual(values = c("darkgreen", "darkolivegreen4", "burlywood3", "antiquewhite4", "azure4",
+                               "gold", "deepskyblue", "darkred"),
+                    labels = c("Forest & Woodland", "Shrub & Herb Vegetation", "Desert & Semi-Desert",
+                               "Open Rock Vegetation", "Nonvascular & Sparse Vascular Rock Vegetation",
+                               "Agricultural & Developed Vegetation", "Open Water", "Developed & Other Human Use")) +
+  coord_sf(datum = 32612)
+```
+
+Raster data can have more than one **band** (where each band is a single raster). These raster layers can stack together to create a **Raster Stack** or a **Raster Brick** (the differences between these two are minor and we will go into more depth later). For example, satellite imagery is a stack of 3 rasters, each containing continuous values indicating levels of Red, Green, and Blue. These 3 bands come together to make a true-color image. 
+
+The important information you need from your raster data are
+
+* the coordinate reference system
+* the extent (the min/max points in x and y geographical space)
+* the cell resolution (the width and height of each cell)
+
+The cell resolution basically means how "pixel-y" the raster is. A **finer** resolution (meaning the cell size is smaller) will have more detail than a **coarser** resolution (meaning the cell size is larger). For example, compare a raster with a pretty fine resolution (in this case 30m X 30m, meaning that each cells is 30-m wide and 30-m high)
+
+```{r fine, eval = T, echo = F, fig.cap = "Map showing a raster with fine resolution (30m X 30m)", fig.align = 'center'}
+dem %>%
+  as.data.frame(xy = T) %>%
+  ggplot(aes(x = x, y = y, fill = elevation)) + 
+  geom_raster() +
+  scale_fill_gradient(low = "grey0", high = "grey100") +
+  labs(fill = "Elevation (m)")
+```
+
+Compared to the same raster but with a coarser resolution (in this case 300 m X 300 m)
+
+```{r coarse, eval = T, echo = F, fig.cap = "Map showing a raster with coarse resolution (300 m X 300 m)", fig.align = 'center'}
+dem_coarse <- aggregate(dem, fact = 10)
+dem_coarse %>%
+  as.data.frame(xy = T) %>%
+  ggplot(aes(x = x, y = y, fill = elevation)) + 
+  geom_raster() +
+  scale_fill_gradient(low = "grey0", high = "grey100") +
+  labs(fill = "Elevation (m)")
+```
+
+**Wouldn't we always want to work with finer resolutions?** If rasters with finer resolutions have more detail (and thus are more accurate to what's actually on the landscape) than one with a coarser resolution, why would we ever work with a raster with coarse resolution? I can think of 2 reasons why:
+
+1. Sometimes you simply can't obtain that data in a finer resolution. For example, [MODIS](https://modis.gsfc.nasa.gov/data/dataprod/mod13.php) offers NDVI rasters every 16 days, but the finest resolution is 250-m.
+2. The finer the resolution, the more cells there are, and so the time to do any sort of computation or analysis on these cells increases.
+
+As for everything, it depends on your analysis and your system.
+
+## Vectors vs Rasters: pros & cons
+
+**Advantages of Vectors**
+ 
+* Because vectors are just vertices and paths (rather than upwards of thousands of grid cells), it takes less time to load, save, or perform any computation or analysis on a vector compared to a raster. (They also take up less disk space on your hard drive)
+* For the same reason, they can often be more geographically accurate. A vector's vertex is located at a single lat/long coordinate compared to a raster pixel at the same location but covers 250mX250m.
+
+**Disadvantages of Vectors**
+
+* It is difficult to store and display continuous data in vectors. (It can be done, but the data typically would need to be binned)
+* Vectors are best used to represent **features** of the landscape, rather than **the landscape itself**.
+
+**Advantages of Rasters**
+
+* Rasters are best for satellite and other remotely sensed data. As the point above mentioned, they are great for representing the landscape itself.
+* It is relatively easy and intuitive to perform any quantitative analysis with rasters. When raster cells are stacked (see figure below), it is pretty straightforward to perform any focal statistics or cell algebra.
+
+```{r stack, fig.cap = "A stack of rasters, showing how each cell would correspond to the ones on top and below", fig.align = 'center', out.width = '50%', echo = F}
+knitr::include_graphics("pictures/raster_stack.png")
+```
+
+**Disadvantages of Rasters**
+
+* Depending on the resolution, they can look pixellated and not visually appealing. For analysis, this would affect computation time and disk space.
+* Raster cells can only contain **one** value (compared to vectors, which can have an entire attribute table). If you want cells to contain more than one value, you would need a stack of rasters, which takes up disk space and computation power.
+
+---------------------------------------------------------------------------------
+
+Now that we know about coordinate reference systems, vectors, and rasters, let's learn how to deal with all of these in R!

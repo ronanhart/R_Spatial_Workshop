@@ -1,0 +1,108 @@
+-----------------------------------------------------
+-----------------------------------------------------
+-- ARCHIVED sp INFROMATION FROM R SPATIAL WORKSHOP --
+-----------------------------------------------------
+-----------------------------------------------------
+
+### Loading vector data from a spreadsheet
+#### With `sp` {-}
+
+Let's do the same thing but now with the `sp` package. We'll use the function `coordinates`. This function will pull the coordinates from an object of class `Spatial`, but it will also assign coordinates to an object of class `data.frame` and automatically convert it to a `Spatial` object by following this format:
+
+```{r coordinatesEx, echo = T, eval = F}
+coordinates(my_dataframe) <- c("x", "y") # x & y are the NAMES of the columns
+# OR
+coordinates(my_dataframe) <- c(1, 2) # 1 & 2 are the INDICES of the columns
+```
+
+I'm first going to make a duplicate object of "sites" called "sites_sp" because `coordinates` will overwrite the original `data.frame` object into a `Spatial` object (which is not necessarily a bad thing, but sometimes you want to keep all your objects separate in case you need to use the original data frame for some reason)
+
+```{r sp, echo = T, eval = T}
+sites_sp <- sites
+coordinates(sites_sp) <- c("Longitude", "Latitude")
+sites_sp
+```
+
+Just like with `sf`, printing the object in `sp` will also show some information about that object, namely the class, extent, and CRS. And just like with `sf` we can use functions to look at this information for a `Spatial` object: `class`, `bbox`, and `proj4string`
+
+```{r checkSPinfo, eval = T, echo = T}
+class(sites_sp)
+
+bbox(sites_sp)
+
+proj4string(sites_sp)
+```
+
+The CRS right now is `NA`. With `sf` we were able to assign a CRS while also converting the data frame to a simple feature, but with `sp` we need to do that in a separate step. We'll use `proj4string` again as this function not only checks the CRS of a spatial object but can also be used to assign a CRS. In `sf`,  we could give the function the EPSG code itself, but in `sp` we need to give it a character string wrapped in the function `CRS`. There are a few ways to write this character string, but the easiest one to remember, in my opinion, follows this format: `"+init=epsg:####"` (where #### would be the EPSG code)
+
+```{r assignCRS, eval = T, echo = T, warning = FALSE}
+proj4string(sites_sp) <- CRS("+init=epsg:4326")
+proj4string(sites_sp)
+```
+
+Great! Now let's plot it to make sure it looks like what we would expect it to
+
+```{r plotSP, eval = T, echo = T}
+plot(sites_sp, 
+     pch = 16) # it defaults, for some reason, to a cross shape, so this changes it to a filled in circle
+```
+
+It is not as straightforward to plot an object of class `Spatial` with ggplot2 as it was with `sf`, so I would recommend either converting the object to `sf` (which we will cover later in this chapter) or just plotting from the data frame
+
+```{r pointsGGplot, eval = T, echo = T}
+ggplot(sites) +
+  geom_point(aes(x = Longitude, y = Latitude))
+```
+
+### Loading vector data as a shapefile
+#### with sp {-}
+
+To read in spatial data as an object in the `Spatial` family, we need to use the `rgdal` package. (When you load in `rgdal`, it will also automatically load in `sp`). We'll use the `rgdal` function `readOGR`. This function is similar to `st_read` in that its arguments are `dsn` and `layer` which work exactly the same way as they do in `st_read`
+
+```{r readOGR, eval = T, echo = T}
+fwy_sp <- readOGR(dsn = "Data/Examples/utah_freeway", layer = "utah_freeway")
+```
+
+`read_OGR`, also like `st_read`, will print out some information after reading in the shapefile. If you want to turn this off, you can add `verbose = FALSE` in the function's arguments.
+
+Let's check the feature's information (class, extent, and CRS) and plot it
+
+```{r checkSP2, eval = T, echo = T, warning = F}
+class(fwy_sp)
+bbox(fwy_sp)
+proj4string(fwy_sp)
+plot(fwy_sp)
+```
+
+### Projecting Data
+# sp
+sites_sp_proj <- spTransform(sites_sp, "+init=epsg:26912")
+proj4string(sites_sp_proj)
+
+### Converting between `sf` and `sp`
+
+As I mentioned before, there is no reason to not use both `sf` and `Spatial*` objects in one piece of code, but it doesn't make sense to load or create a single object as both an `sf` and `Spatial*` class. In some cases it makes more sense to work with `sf` objects and then convert them to `Spatial*` if needed (or vice versa). Lucky for us, it's pretty easy to convert an `sf` object to `Spatial*` and then back to `sf`. For `sf` -> `Spatial*` we'll use the function `as()` or `as_Spatial()`. For `Spatial*` -> `sf` we'll use a function we've allready used: `st_as_sf()`
+
+```{r convertSfSpatial, eval = T, echo = T}
+# convert sf object to Spatial
+class(fwy_sf)
+fwy_sf_to_sp <- as_Spatial(fwy_sf)
+class(fwy_sf_to_sp)
+
+# you can also use the function as() and add an argument "Spatial"
+fwy_sf_to_sp_2 <- as(fwy_sf, "Spatial")
+identical(fwy_sf_to_sp, fwy_sf_to_sp_2) # they are exactly the same
+
+# convert Spatial object to sf
+class(fwy_sp)
+fwy_sp_to_sf <- st_as_sf(fwy_sp)
+class(fwy_sp_to_sf)
+```
+
+## Rasters
+Note that `raster` depends on the `sp` package, as it loads `sp` automatically when you load `raster`.
+
+
+## Cropping
+
+For `sp` we'll use the function `crop`. (`crop` is actually in the `raster` package, but remember that `raster` is dependent on `sp`? That means that some `raster` functions can be used on `Spatial*` objects too). For `crop` we need the object we're cropping and the extent we're cropping to (or an object that an extent can be derived from, in this case the raster itself)

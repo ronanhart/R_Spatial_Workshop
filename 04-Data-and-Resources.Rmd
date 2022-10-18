@@ -1,0 +1,71 @@
+# Where to Obtain Data & Further Resources
+
+## Data Sources
+
+### `maps` package
+
+There is package you can install called [`maps`](https://www.rdocumentation.org/packages/maps/versions/3.4.0) that contains a lot of global and national features (such as state boundaries, bodies of water, etc). These features don't contain a lot of data or attributes, so they are more useful for making maps and not so much for spatial analysis. However, I've used them to pull state boundaries to get the extents I need for cropping rasters, for example.
+
+The [help documentation](https://www.rdocumentation.org/packages/maps/versions/3.4.0) for the `maps` package and [this website](https://www.rdocumentation.org/packages/maps/versions/3.4.0) show you how you can access different features from this package. I'll show you briefly how I use it to pull the state boundary of Utah:
+
+```{r utahMaps, eval = T, echo = T}
+utah <- maps::map("state", plot = F, fill = TRUE) %>%
+  # turn into sf obj
+  sf::st_as_sf() %>%
+  # pull out utah 
+  dplyr::filter(ID == "utah")
+utah
+plot(st_geometry(utah))
+```
+
+### Utah GIS
+
+Many states and cities have GIS data that are publicly available. To find them, typically I google something like "Utah GIS data" or the specific data I'm looking for. Utah helpfully has a website called [gis.utah.gov](https://gis.utah.gov/#data). Some datasets they have that could be useful for ecological research are [Geoscience](https://gis.utah.gov/data/geoscience/), [Water](https://gis.utah.gov/data/water/), and [Bioscience](https://gis.utah.gov/data/bioscience/), just to name a few
+
+The highway feature and the management boundaries feature we've been working on in this workshop came from this website on their [Transportation page](https://gis.utah.gov/data/transportation/) and [Land Ownership page](https://gis.utah.gov/data/cadastre/land-ownership/) respectively
+
+### Other Environmental Rasters
+
+In this workshop we worked with a [DEM (digital elevation model)](https://www.usgs.gov/3d-elevation-program) and [snow data](https://nsidc.org/data/g02158). In my own research I work with these data frequently. I also work with [RAP (Rangeland Analysis Platform)](https://rangelands.app/), which offers biomass and vegetation cover, and [NDVI (Normalized Difference Vegetation Index)](https://modis.gsfc.nasa.gov/data/dataprod/mod13.php), which reports an index of vegetation "green-ness". Many of these rasters can be downloaded from the website's user-interface, **but** they can also be downloaded directly from R!
+
+This can be a bit complicated if you've never done it before, but fortunately Brian Smith, a PhD in WILD at USU, has already written a [guide](https://bsmity13.github.io/spatial_covars/)!
+
+My research is very temporally-dependent, and many of these rasters are available daily, weekly, or yearly. It can get very tedious to repeat lines and lines of code to download a year's worth of daily rasters. This is, again, where loops come in handy!
+
+In this workshop we also worked with a Landcover/Landuse raster. I obtained that from [here](https://www.usgs.gov/programs/gap-analysis-project/science/land-cover-data-download)
+
+## More Resources
+
+This workshop really just touches the surface on how to work with GIS in R. There are a plethora of resources online to help you enhance what you learned today and help you solve your particular GIS problem. Here are just a few:
+
+* https://cengel.github.io/R-spatial/
+* https://www.bookdown.org/mcwimberly/gdswr-book/ 
+* https://www.jessesadler.com/tags/gis/
+* https://geocompr.robinlovelace.net/
+* [GIS stack exchange](https://gis.stackexchange.com/)
+* Google!
+
+### Learn more about GIS in general
+
+* https://docs.qgis.org/3.22/en/docs/index.html
+* https://wiki.gis.com/
+* https://gisgeography.com/ 
+* https://www.gislounge.com/
+* http://innovativegis.com/basis/primer/The_GIS_Primer_Buckley.pdf
+
+## Acknowledgements
+
+This workshop is partially adapted from [Claudia Engel](https://cengel.github.io/R-spatial/)
+
+This website was created with [R bookdown](https://bookdown.org/yihui/bookdown/)
+
+### Figure Citations
+
+[Figure 2.4](https://docs.qgis.org/3.22/en/docs/gentle_gis_introduction/coordinate_reference_systems.html)
+
+[Figure 2.5](https://gisgeography.com/utm-universal-transverse-mercator-projection/)
+
+[Figure 2.6](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system)
+
+[Figure 2.13](https://gisgeography.com/spatial-data-types-vector-raster/)
+
