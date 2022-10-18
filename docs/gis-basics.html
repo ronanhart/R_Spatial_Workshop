@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 GIS basics | R Spatial Workshop</title>
+  <meta name="description" content="This workshop was created for USU’s Ecology Center R workshops on R Spatial." />
+  <meta name="generator" content="bookdown 0.25 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 GIS basics | R Spatial Workshop" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This workshop was created for USU’s Ecology Center R workshops on R Spatial." />
+  <meta name="github-repo" content="ronanhart/R_spatial_workshop" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 GIS basics | R Spatial Workshop" />
+  
+  <meta name="twitter:description" content="This workshop was created for USU’s Ecology Center R workshops on R Spatial." />
+  
+
+<meta name="author" content="Ronan Hart" />
+
+
+<meta name="date" content="2022-04-06" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="spatial-data-in-r.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Ecology Center: R Spatial Workshop</a></li>
+
+<li class="divider"></li>
+<li><a href="index.html#url-your-book-url-like-httpsbookdown.orgyihuibookdown" id="toc-url-your-book-url-like-httpsbookdown.orgyihuibookdown"><span class="toc-section-number">1</span> url: your book url like <span>https://bookdown.org/yihui/bookdown</span><span></span></a>
+<ul>
+<li><a href="index.html#why-gis-in-r" id="toc-why-gis-in-r">Why GIS in R?<span></span></a></li>
+<li><a href="index.html#prerequisites-packages-and-preparation" id="toc-prerequisites-packages-and-preparation">Prerequisites, Packages, and Preparation<span></span></a></li>
+</ul></li>
+<li><a href="gis-basics.html#gis-basics" id="toc-gis-basics"><span class="toc-section-number">2</span> GIS basics<span></span></a>
+<ul>
+<li><a href="gis-basics.html#datums-projections-and-coordinate-systems" id="toc-datums-projections-and-coordinate-systems"><span class="toc-section-number">2.1</span> Datums, Projections, and Coordinate Systems<span></span></a>
+<ul>
+<li><a href="gis-basics.html#datums" id="toc-datums">Datums<span></span></a></li>
+<li><a href="gis-basics.html#projections" id="toc-projections">Projections<span></span></a></li>
+<li><a href="gis-basics.html#coordinate-reference-system" id="toc-coordinate-reference-system">Coordinate Reference System<span></span></a></li>
+</ul></li>
+<li><a href="gis-basics.html#spatial-data" id="toc-spatial-data"><span class="toc-section-number">2.2</span> Spatial Data<span></span></a>
+<ul>
+<li><a href="gis-basics.html#vectors" id="toc-vectors">Vectors<span></span></a></li>
+<li><a href="gis-basics.html#rasters" id="toc-rasters">Rasters<span></span></a></li>
+</ul></li>
+<li><a href="gis-basics.html#vectors-vs-rasters-pros-cons" id="toc-vectors-vs-rasters-pros-cons"><span class="toc-section-number">2.3</span> Vectors vs Rasters: pros &amp; cons<span></span></a></li>
+</ul></li>
+<li><a href="spatial-data-in-r.html#spatial-data-in-r" id="toc-spatial-data-in-r"><span class="toc-section-number">3</span> Spatial Data in R<span></span></a>
+<ul>
+<li><a href="spatial-data-in-r.html#vectors-1" id="toc-vectors-1"><span class="toc-section-number">3.1</span> Vectors<span></span></a>
+<ul>
+<li><a href="spatial-data-in-r.html#loading-vector-data-from-a-spreadsheet" id="toc-loading-vector-data-from-a-spreadsheet"><span class="toc-section-number">3.1.1</span> Loading vector data from a spreadsheet<span></span></a></li>
+<li><a href="spatial-data-in-r.html#loading-vector-data-from-a-shapefile" id="toc-loading-vector-data-from-a-shapefile"><span class="toc-section-number">3.1.2</span> Loading vector data from a shapefile<span></span></a></li>
+<li><a href="spatial-data-in-r.html#projecting-vector-data" id="toc-projecting-vector-data"><span class="toc-section-number">3.1.3</span> Projecting vector data<span></span></a></li>
+<li><a href="spatial-data-in-r.html#saving-vector-data" id="toc-saving-vector-data"><span class="toc-section-number">3.1.4</span> Saving vector data<span></span></a></li>
+<li><a href="spatial-data-in-r.html#a-note-about-sf-and-tidyverse" id="toc-a-note-about-sf-and-tidyverse">A note about <code>sf</code> and <code>tidyverse</code><span></span></a></li>
+<li><a href="spatial-data-in-r.html#your-turn" id="toc-your-turn">Your Turn!<span></span></a></li>
+</ul></li>
+<li><a href="spatial-data-in-r.html#rasters-1" id="toc-rasters-1"><span class="toc-section-number">3.2</span> Rasters<span></span></a>
+<ul>
+<li><a href="spatial-data-in-r.html#load-a-raster" id="toc-load-a-raster"><span class="toc-section-number">3.2.1</span> Load a raster<span></span></a></li>
+<li><a href="spatial-data-in-r.html#create-a-raster" id="toc-create-a-raster"><span class="toc-section-number">3.2.2</span> Create a raster<span></span></a></li>
+<li><a href="spatial-data-in-r.html#project-a-raster" id="toc-project-a-raster"><span class="toc-section-number">3.2.3</span> Project a raster<span></span></a></li>
+<li><a href="spatial-data-in-r.html#save-a-raster" id="toc-save-a-raster"><span class="toc-section-number">3.2.4</span> Save a raster<span></span></a></li>
+<li><a href="spatial-data-in-r.html#your-turn-1" id="toc-your-turn-1">Your Turn!<span></span></a></li>
+</ul></li>
+</ul></li>
+<li><a href="spatial-analysis.html#spatial-analysis" id="toc-spatial-analysis"><span class="toc-section-number">4</span> Spatial Analysis<span></span></a>
+<ul>
+<li><a href="spatial-analysis.html#selecting-attributes" id="toc-selecting-attributes"><span class="toc-section-number">4.1</span> Selecting Attributes<span></span></a></li>
+<li><a href="spatial-analysis.html#select-features-by-location" id="toc-select-features-by-location"><span class="toc-section-number">4.2</span> Select features by location<span></span></a></li>
+<li><a href="spatial-analysis.html#joining-attributes" id="toc-joining-attributes"><span class="toc-section-number">4.3</span> Joining Attributes<span></span></a></li>
+<li><a href="spatial-analysis.html#extract-raster-values" id="toc-extract-raster-values"><span class="toc-section-number">4.4</span> Extract Raster Values<span></span></a></li>
+<li><a href="spatial-analysis.html#distance" id="toc-distance"><span class="toc-section-number">4.5</span> Distance<span></span></a></li>
+<li><a href="spatial-analysis.html#calculate-terrain-characteristics" id="toc-calculate-terrain-characteristics"><span class="toc-section-number">4.6</span> Calculate Terrain Characteristics<span></span></a></li>
+<li><a href="spatial-analysis.html#re-classify-rasters" id="toc-re-classify-rasters"><span class="toc-section-number">4.7</span> Re-Classify Rasters<span></span></a></li>
+<li><a href="spatial-analysis.html#raster-cell-stats" id="toc-raster-cell-stats"><span class="toc-section-number">4.8</span> Raster Cell Stats<span></span></a></li>
+<li><a href="spatial-analysis.html#a-note-about-loops" id="toc-a-note-about-loops"><span class="toc-section-number">4.9</span> A Note About Loops<span></span></a></li>
+</ul></li>
+<li><a href="where-to-obtain-data-further-resources.html#where-to-obtain-data-further-resources" id="toc-where-to-obtain-data-further-resources"><span class="toc-section-number">5</span> Where to Obtain Data &amp; Further Resources<span></span></a>
+<ul>
+<li><a href="where-to-obtain-data-further-resources.html#data-sources" id="toc-data-sources"><span class="toc-section-number">5.1</span> Data Sources<span></span></a>
+<ul>
+<li><a href="where-to-obtain-data-further-resources.html#maps-package" id="toc-maps-package"><span class="toc-section-number">5.1.1</span> <code>maps</code> package<span></span></a></li>
+<li><a href="where-to-obtain-data-further-resources.html#utah-gis" id="toc-utah-gis"><span class="toc-section-number">5.1.2</span> Utah GIS<span></span></a></li>
+<li><a href="where-to-obtain-data-further-resources.html#other-environmental-rasters" id="toc-other-environmental-rasters"><span class="toc-section-number">5.1.3</span> Other Environmental Rasters<span></span></a></li>
+</ul></li>
+<li><a href="where-to-obtain-data-further-resources.html#more-resources" id="toc-more-resources"><span class="toc-section-number">5.2</span> More Resources<span></span></a>
+<ul>
+<li><a href="where-to-obtain-data-further-resources.html#learn-more-about-gis-in-general" id="toc-learn-more-about-gis-in-general"><span class="toc-section-number">5.2.1</span> Learn more about GIS in general<span></span></a></li>
+</ul></li>
+<li><a href="where-to-obtain-data-further-resources.html#acknowledgements" id="toc-acknowledgements"><span class="toc-section-number">5.3</span> Acknowledgements<span></span></a>
+<ul>
+<li><a href="where-to-obtain-data-further-resources.html#figure-citations" id="toc-figure-citations"><span class="toc-section-number">5.3.1</span> Figure Citations<span></span></a></li>
+</ul></li>
+<li><a href="where-to-obtain-data-further-resources.html#cropping" id="toc-cropping"><span class="toc-section-number">5.4</span> Cropping<span></span></a>
+<ul>
+<li><a href="where-to-obtain-data-further-resources.html#cropping-a-vector" id="toc-cropping-a-vector">Cropping a vector<span></span></a></li>
+<li><a href="where-to-obtain-data-further-resources.html#cropping-a-raster" id="toc-cropping-a-raster">Cropping a raster<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R Spatial Workshop</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="gis-basics" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> GIS basics<a href="gis-basics.html#gis-basics" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>I apologize if you’ve taken a GIS course or two and are already familiar with these concepts. I want to make sure we’re all on the same page and that we all know how these concepts work in R.</p>
+<div id="datums-projections-and-coordinate-systems" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Datums, Projections, and Coordinate Systems<a href="gis-basics.html#datums-projections-and-coordinate-systems" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="datums" class="section level3 unnumbered hasAnchor">
+<h3>Datums<a href="gis-basics.html#datums" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The Earth is a <strong>spheroid</strong> (also called an <strong>ellipsoid</strong>). Because of variations in elevation across the world, the Earth’s surface is irregular.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:earthSpheroid"></span>
+<img src="pictures/spheroid.png" alt="Conceptual representation of the irregular, spheroid shape of the Earth" width="25%" />
+<p class="caption">
+Figure 2.1: Conceptual representation of the irregular, spheroid shape of the Earth
+</p>
+</div>
+<p>A <strong>datum</strong> (also called a <strong>geographic coordinate system</strong>) is a reference surface that best fits the mean surface area of an area of interest. There is a global datum to represent the general surface of the Earth as a whole — World Geodetic System of 1984 i.e. WGS84.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:wgs"></span>
+<img src="pictures/wgs.png" alt="Red ellipse represents the smooth, general surface of the Earth (i.e. a global datum)" width="25%" />
+<p class="caption">
+Figure 2.2: Red ellipse represents the smooth, general surface of the Earth (i.e. a global datum)
+</p>
+</div>
+<p>However, because the Earth’s surface is irregular and the global datum might not reflect specific areas and variations in elevations, there are also local datums. A common local datum (for North America at least) is the North America Datum of 1983 (NAD83) .</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:local"></span>
+<img src="pictures/local.png" alt="Yellow line indicates a specific area, purple ellipse represents the smooth, general surface of the Earth at this location. Note that this local datum would not be a best fit in other places on the Earth" width="25%" />
+<p class="caption">
+Figure 2.3: Yellow line indicates a specific area, purple ellipse represents the smooth, general surface of the Earth at this location. Note that this local datum would not be a best fit in other places on the Earth
+</p>
+</div>
+<p>The datum you choose to work with is up to you and where your study takes place. It is <strong>very</strong> important to know what datum you’re working with and that you remain consistent because coordinates of a location from one datum are likely different than the same location from a different datum. For example, if we look at the coordinates for Bellingham, Washington:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Datum</th>
+<th>Longitude</th>
+<th>Latitude</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>NAD 1983</td>
+<td>-122.46818353793</td>
+<td>48.74387985<strong>43649</strong></td>
+</tr>
+<tr class="even">
+<td>WGS 1984</td>
+<td>-122.46818353793</td>
+<td>48.74387985<strong>34299</strong></td>
+</tr>
+</tbody>
+</table>
+<p>While the differences between NAD83 and WGS84 are not huge, these differences could impact any spatial analysis you perform. Also note that you would need to choose a different local datum if you’re working outside of North America.</p>
+</div>
+<div id="projections" class="section level3 unnumbered hasAnchor">
+<h3>Projections<a href="gis-basics.html#projections" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>While a datum references the position of an object in geographic space on a 3D surface, a <strong>projection</strong> (also called a <strong>projected coordinate system</strong>) represents that 3D surface onto a 2D plane.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:project"></span>
+<img src="pictures/projection.png" alt="Conceptual demonstration of map projections" width="50%" />
+<p class="caption">
+Figure 2.4: Conceptual demonstration of map projections
+</p>
+</div>
+<p>This is important to know when plotting a map for a figure, as your chosen projection will change the visualization and shape of your map’s features. But more importantly for spatial analysis, a projection is needed when you need values such as length, area, or distance. Map projections are never 100% accurate, so every 2D map will have show some distortion. Different projections preserve different properties of the world, such as the relative shape of features, area, distance, or angle. For that reason, it’s important to pick a projection that would provide the highest accuracy for your region and the analysis you’re running.</p>
+<p>A common projection to use is the <strong>Universal Transverse Mercator</strong> or <strong>UTM</strong>.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:utm"></span>
+<img src="pictures/utm-1024x512.jpg" alt="UTM around the globe" width="50%" />
+<p class="caption">
+Figure 2.5: UTM around the globe
+</p>
+</div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:utmUSA"></span>
+<img src="pictures/utm_usa.png" alt="UTM for the US" width="50%" />
+<p class="caption">
+Figure 2.6: UTM for the US
+</p>
+</div>
+<p>If your study region is in Utah, for example, you would use UTM Zone 12 N (or UTM 12N).</p>
+<p>Note that while you will <strong>always</strong> have a datum, <strong>you do not necessarily need to ALWAYS use a projection.</strong> As for anything, it depends on your analysis and your system.</p>
+</div>
+<div id="coordinate-reference-system" class="section level3 unnumbered hasAnchor">
+<h3>Coordinate Reference System<a href="gis-basics.html#coordinate-reference-system" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>A <strong>coordinate reference system</strong> or <strong>CRS</strong> is simply the combination of the datum (geographic coordinate system) and the projection (projected coordinate system). For example, if you are working with the 1984 World Geodetic System that is projected to UTM Zone 12N, your CRS would be WGS84 UTM12N. If you are working with the 1983 North America Datum that is projected to UTM Zone 14N, your CRS would be NAD83 UTM14N. And so on.</p>
+<p>These different combinations of CRS all have their own <strong>EPSG code.</strong> (These codes were orginally created by the European Petroleum Survey Group, which is where the acronym comes from).</p>
+<p>For example, the EPSG code for WGS84 latitude/longitude (i.e. no projection) is <strong>4326</strong>, the EPSG code for NAD83 UTM12N is <strong>26912</strong>, and so on. These codes can easily be found on <a href="https://www.spatialreference.org/">the Spatial Reference Website</a> (or google if you forget what the website is).</p>
+<hr />
+</div>
+</div>
+<div id="spatial-data" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Spatial Data<a href="gis-basics.html#spatial-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="vectors" class="section level3 unnumbered hasAnchor">
+<h3>Vectors<a href="gis-basics.html#vectors" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Vector data are shapes with a geometry that can represent real world features. These geometries which can be made up of one or more <strong>vertices and paths</strong>. A vertex describes a position in space with x and y coordinates. A feature with one vertex would be a <strong>point</strong>, a feature with two or more vertices where the first and last vertices don’t connect would be a <strong>polyline</strong>, and a feature with at least three vertices and the first and last vertices connect (an enclosed area) would be <strong>polygon</strong>.</p>
+<ul>
+<li>Points
+<ul>
+<li>animal positional locations</li>
+<li>study site coordinates</li>
+<li>tree locations</li>
+</ul></li>
+<li>Lines
+<ul>
+<li>roads</li>
+<li>fences</li>
+<li>boundaries</li>
+<li>rivers</li>
+</ul></li>
+<li>Areas (or polygons)
+<ul>
+<li>bodies of water</li>
+<li>parks</li>
+<li>USFS land</li>
+<li>study plots</li>
+<li>area burned by a fire</li>
+</ul></li>
+</ul>
+<p>Example with random vertices:</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:features"></span>
+<img src="_main_files/figure-html/features-1.png" alt="Figure demonstrating points (red), polylines (black), and polygon (blue)" width="672" />
+<p class="caption">
+Figure 2.7: Figure demonstrating points (red), polylines (black), and polygon (blue)
+</p>
+</div>
+<p>Or an example with Utah features:</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:utahExample"></span>
+<img src="_main_files/figure-html/utahExample-1.png" alt="Figure demonstrating points (major Utah cities), polylines (major Utah highways), and polygons (shape of Utah boundary)" width="672" />
+<p class="caption">
+Figure 2.8: Figure demonstrating points (major Utah cities), polylines (major Utah highways), and polygons (shape of Utah boundary)
+</p>
+</div>
+<p>Vector features have attributes, which can be text or numerical information that describe the features. These attributes are stored in a data frame.</p>
+<pre><code>##                   name state    pop   lat    long capital
+## 1         Bountiful UT    UT  41622 40.88 -111.87       0
+## 2            Layton UT    UT  63096 41.08 -111.95       0
+## 3             Logan UT    UT  45262 41.74 -111.84       0
+## 4            Murray UT    UT  56848 40.65 -111.89       0
+## 5             Ogden UT    UT  78572 41.23 -111.97       0
+## 6              Orem UT    UT  94758 40.30 -111.70       0
+## 7             Provo UT    UT 105832 40.25 -111.64       0
+## 8      Saint George UT    UT  63952 37.08 -113.58       0
+## 9    Salt Lake City UT    UT 177318 40.78 -111.93       1
+## 10            Sandy UT    UT  89698 40.57 -111.85       0
+## 11     Taylorsville UT    UT  58200 40.66 -111.94       0
+## 12      West Jordan UT    UT 105629 40.60 -111.99       0
+## 13 West Valley City UT    UT 113989 40.69 -112.01       0</code></pre>
+<p>The important information you need from your vector data are:</p>
+<ul>
+<li>the geometry type (if it’s a point, line, or polygon)</li>
+<li>the coordinate reference system</li>
+<li>the bounding box (the min/max points in x and y geographical space)</li>
+</ul>
+</div>
+<div id="rasters" class="section level3 unnumbered hasAnchor">
+<h3>Rasters<a href="gis-basics.html#rasters" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Rasters are data represented by <strong>pixels</strong> (or <strong>cells</strong>) where each pixel has its own value. These cell values can be <strong>continuous</strong> (e.g. elevation, temperature, snow depth) or <strong>discrete</strong> (e.g. land cover, habitat type, presence/absence).</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:contDemo"></span>
+<img src="_main_files/figure-html/contDemo-1.png" alt="Map showing a raster with continuous values (elevation)" width="672" />
+<p class="caption">
+Figure 2.9: Map showing a raster with continuous values (elevation)
+</p>
+</div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:discDemo"></span>
+<img src="_main_files/figure-html/discDemo-1.png" alt="Map showing a raster with discrete values (land cover)" width="672" />
+<p class="caption">
+Figure 2.10: Map showing a raster with discrete values (land cover)
+</p>
+</div>
+<p>Raster data can have more than one <strong>band</strong> (where each band is a single raster). These raster layers can stack together to create a <strong>Raster Stack</strong> or a <strong>Raster Brick</strong> (the differences between these two are minor and we will go into more depth later). For example, satellite imagery is a stack of 3 rasters, each containing continuous values indicating levels of Red, Green, and Blue. These 3 bands come together to make a true-color image.</p>
+<p>The important information you need from your raster data are</p>
+<ul>
+<li>the coordinate reference system</li>
+<li>the extent (the min/max points in x and y geographical space)</li>
+<li>the cell resolution (the width and height of each cell)</li>
+</ul>
+<p>The cell resolution basically means how “pixel-y” the raster is. A <strong>finer</strong> resolution (meaning the cell size is smaller) will have more detail than a <strong>coarser</strong> resolution (meaning the cell size is larger). For example, compare a raster with a pretty fine resolution (in this case 30m X 30m, meaning that each cells is 30-m wide and 30-m high)</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:fine"></span>
+<img src="_main_files/figure-html/fine-1.png" alt="Map showing a raster with fine resolution (30m X 30m)" width="672" />
+<p class="caption">
+Figure 2.11: Map showing a raster with fine resolution (30m X 30m)
+</p>
+</div>
+<p>Compared to the same raster but with a coarser resolution (in this case 300 m X 300 m)</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:coarse"></span>
+<img src="_main_files/figure-html/coarse-1.png" alt="Map showing a raster with coarse resolution (300 m X 300 m)" width="672" />
+<p class="caption">
+Figure 2.12: Map showing a raster with coarse resolution (300 m X 300 m)
+</p>
+</div>
+<p><strong>Wouldn’t we always want to work with finer resolutions?</strong> If rasters with finer resolutions have more detail (and thus are more accurate to what’s actually on the landscape) than one with a coarser resolution, why would we ever work with a raster with coarse resolution? I can think of 2 reasons why:</p>
+<ol style="list-style-type: decimal">
+<li>Sometimes you simply can’t obtain that data in a finer resolution. For example, <a href="https://modis.gsfc.nasa.gov/data/dataprod/mod13.php">MODIS</a> offers NDVI rasters every 16 days, but the finest resolution is 250-m.</li>
+<li>The finer the resolution, the more cells there are, and so the time to do any sort of computation or analysis on these cells increases.</li>
+</ol>
+<p>As for everything, it depends on your analysis and your system.</p>
+</div>
+</div>
+<div id="vectors-vs-rasters-pros-cons" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Vectors vs Rasters: pros &amp; cons<a href="gis-basics.html#vectors-vs-rasters-pros-cons" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><strong>Advantages of Vectors</strong></p>
+<ul>
+<li>Because vectors are just vertices and paths (rather than upwards of thousands of grid cells), it takes less time to load, save, or perform any computation or analysis on a vector compared to a raster. (They also take up less disk space on your hard drive)</li>
+<li>For the same reason, they can often be more geographically accurate. A vector’s vertex is located at a single lat/long coordinate compared to a raster pixel at the same location but covers 250mX250m.</li>
+</ul>
+<p><strong>Disadvantages of Vectors</strong></p>
+<ul>
+<li>It is difficult to store and display continuous data in vectors. (It can be done, but the data typically would need to be binned)</li>
+<li>Vectors are best used to represent <strong>features</strong> of the landscape, rather than <strong>the landscape itself</strong>.</li>
+</ul>
+<p><strong>Advantages of Rasters</strong></p>
+<ul>
+<li>Rasters are best for satellite and other remotely sensed data. As the point above mentioned, they are great for representing the landscape itself.</li>
+<li>It is relatively easy and intuitive to perform any quantitative analysis with rasters. When raster cells are stacked (see figure below), it is pretty straightforward to perform any focal statistics or cell algebra.</li>
+</ul>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:stack"></span>
+<img src="pictures/raster_stack.png" alt="A stack of rasters, showing how each cell would correspond to the ones on top and below" width="50%" />
+<p class="caption">
+Figure 2.13: A stack of rasters, showing how each cell would correspond to the ones on top and below
+</p>
+</div>
+<p><strong>Disadvantages of Rasters</strong></p>
+<ul>
+<li>Depending on the resolution, they can look pixellated and not visually appealing. For analysis, this would affect computation time and disk space.</li>
+<li>Raster cells can only contain <strong>one</strong> value (compared to vectors, which can have an entire attribute table). If you want cells to contain more than one value, you would need a stack of rasters, which takes up disk space and computation power.</li>
+</ul>
+<hr />
+<p>Now that we know about coordinate reference systems, vectors, and rasters, let’s learn how to deal with all of these in R!</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="spatial-data-in-r.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://https://github.com/ronanhart/R_spatial_workshop/01-intro_GIS-basics.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>R Spatial Workshop</title>
+  <meta name="description" content="This workshop was created for USU’s Ecology Center R workshops on R Spatial." />
+  <meta name="generator" content="bookdown 0.25 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="R Spatial Workshop" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This workshop was created for USU’s Ecology Center R workshops on R Spatial." />
+  <meta name="github-repo" content="ronanhart/R_spatial_workshop" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="R Spatial Workshop" />
+  
+  <meta name="twitter:description" content="This workshop was created for USU’s Ecology Center R workshops on R Spatial." />
+  
+
+<meta name="author" content="Ronan Hart" />
+
+
+<meta name="date" content="2022-04-06" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+
+<link rel="next" href="gis-basics.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Ecology Center: R Spatial Workshop</a></li>
+
+<li class="divider"></li>
+<li><a href="index.html#welcome-to-the-ecology-centers-workshop-on-r-spatial" id="toc-welcome-to-the-ecology-centers-workshop-on-r-spatial"><span class="toc-section-number">1</span> Welcome to the Ecology Center’s Workshop on R Spatial!<span></span></a>
+<ul>
+<li><a href="index.html#why-gis-in-r" id="toc-why-gis-in-r">Why GIS in R?<span></span></a></li>
+<li><a href="index.html#prerequisites-packages-and-preparation" id="toc-prerequisites-packages-and-preparation">Prerequisites, Packages, and Preparation<span></span></a></li>
+</ul></li>
+<li><a href="gis-basics.html#gis-basics" id="toc-gis-basics"><span class="toc-section-number">2</span> GIS basics<span></span></a>
+<ul>
+<li><a href="gis-basics.html#datums-projections-and-coordinate-systems" id="toc-datums-projections-and-coordinate-systems"><span class="toc-section-number">2.1</span> Datums, Projections, and Coordinate Systems<span></span></a>
+<ul>
+<li><a href="gis-basics.html#datums" id="toc-datums">Datums<span></span></a></li>
+<li><a href="gis-basics.html#projections" id="toc-projections">Projections<span></span></a></li>
+<li><a href="gis-basics.html#coordinate-reference-system" id="toc-coordinate-reference-system">Coordinate Reference System<span></span></a></li>
+</ul></li>
+<li><a href="gis-basics.html#spatial-data" id="toc-spatial-data"><span class="toc-section-number">2.2</span> Spatial Data<span></span></a>
+<ul>
+<li><a href="gis-basics.html#vectors" id="toc-vectors">Vectors<span></span></a></li>
+<li><a href="gis-basics.html#rasters" id="toc-rasters">Rasters<span></span></a></li>
+</ul></li>
+<li><a href="gis-basics.html#vectors-vs-rasters-pros-cons" id="toc-vectors-vs-rasters-pros-cons"><span class="toc-section-number">2.3</span> Vectors vs Rasters: pros &amp; cons<span></span></a></li>
+</ul></li>
+<li><a href="spatial-data-in-r.html#spatial-data-in-r" id="toc-spatial-data-in-r"><span class="toc-section-number">3</span> Spatial Data in R<span></span></a>
+<ul>
+<li><a href="spatial-data-in-r.html#vectors-1" id="toc-vectors-1"><span class="toc-section-number">3.1</span> Vectors<span></span></a>
+<ul>
+<li><a href="spatial-data-in-r.html#loading-vector-data-from-a-spreadsheet" id="toc-loading-vector-data-from-a-spreadsheet"><span class="toc-section-number">3.1.1</span> Loading vector data from a spreadsheet<span></span></a></li>
+<li><a href="spatial-data-in-r.html#loading-vector-data" id="toc-loading-vector-data"><span class="toc-section-number">3.1.2</span> Loading vector data<span></span></a></li>
+<li><a href="spatial-data-in-r.html#projecting-vector-data" id="toc-projecting-vector-data"><span class="toc-section-number">3.1.3</span> Projecting vector data<span></span></a></li>
+<li><a href="spatial-data-in-r.html#saving-vector-data" id="toc-saving-vector-data"><span class="toc-section-number">3.1.4</span> Saving vector data<span></span></a></li>
+<li><a href="spatial-data-in-r.html#converting-between-sf-and-sp" id="toc-converting-between-sf-and-sp"><span class="toc-section-number">3.1.5</span> Converting between <code>sf</code> and <code>sp</code><span></span></a></li>
+<li><a href="spatial-data-in-r.html#a-note-about-sf-and-tidyverse" id="toc-a-note-about-sf-and-tidyverse">A note about <code>sf</code> and <code>tidyverse</code><span></span></a></li>
+<li><a href="spatial-data-in-r.html#your-turn" id="toc-your-turn">Your Turn!<span></span></a></li>
+</ul></li>
+<li><a href="spatial-data-in-r.html#rasters-1" id="toc-rasters-1"><span class="toc-section-number">3.2</span> Rasters<span></span></a>
+<ul>
+<li><a href="spatial-data-in-r.html#load-a-raster" id="toc-load-a-raster"><span class="toc-section-number">3.2.1</span> Load a raster<span></span></a></li>
+<li><a href="spatial-data-in-r.html#create-a-raster" id="toc-create-a-raster"><span class="toc-section-number">3.2.2</span> Create a raster<span></span></a></li>
+<li><a href="spatial-data-in-r.html#project-a-raster" id="toc-project-a-raster"><span class="toc-section-number">3.2.3</span> Project a raster<span></span></a></li>
+<li><a href="spatial-data-in-r.html#save-a-raster" id="toc-save-a-raster"><span class="toc-section-number">3.2.4</span> Save a raster<span></span></a></li>
+<li><a href="spatial-data-in-r.html#your-turn-1" id="toc-your-turn-1">Your Turn!<span></span></a></li>
+</ul></li>
+</ul></li>
+<li><a href="spatial-analysis.html#spatial-analysis" id="toc-spatial-analysis"><span class="toc-section-number">4</span> Spatial Analysis<span></span></a>
+<ul>
+<li><a href="spatial-analysis.html#selecting-attributes" id="toc-selecting-attributes"><span class="toc-section-number">4.1</span> Selecting Attributes<span></span></a></li>
+<li><a href="spatial-analysis.html#select-features-by-location" id="toc-select-features-by-location"><span class="toc-section-number">4.2</span> Select features by location<span></span></a></li>
+<li><a href="spatial-analysis.html#joining-attributes" id="toc-joining-attributes"><span class="toc-section-number">4.3</span> Joining Attributes<span></span></a></li>
+<li><a href="spatial-analysis.html#cropping" id="toc-cropping"><span class="toc-section-number">4.4</span> Cropping<span></span></a>
+<ul>
+<li><a href="spatial-analysis.html#cropping-a-vector" id="toc-cropping-a-vector">Cropping a vector<span></span></a></li>
+<li><a href="spatial-analysis.html#cropping-a-raster" id="toc-cropping-a-raster">Cropping a raster<span></span></a></li>
+</ul></li>
+<li><a href="spatial-analysis.html#extract-raster-values" id="toc-extract-raster-values"><span class="toc-section-number">4.5</span> Extract Raster Values<span></span></a></li>
+<li><a href="spatial-analysis.html#distance" id="toc-distance"><span class="toc-section-number">4.6</span> Distance<span></span></a></li>
+<li><a href="spatial-analysis.html#raster-cell-stats" id="toc-raster-cell-stats"><span class="toc-section-number">4.7</span> Raster Cell Stats<span></span></a></li>
+<li><a href="spatial-analysis.html#calculate-terrain-characteristics" id="toc-calculate-terrain-characteristics"><span class="toc-section-number">4.8</span> Calculate Terrain Characteristics<span></span></a></li>
+<li><a href="spatial-analysis.html#a-note-about-loops" id="toc-a-note-about-loops"><span class="toc-section-number">4.9</span> A Note About Loops<span></span></a></li>
+</ul></li>
+<li><a href="where-to-obtain-data-further-resources.html#where-to-obtain-data-further-resources" id="toc-where-to-obtain-data-further-resources"><span class="toc-section-number">5</span> Where to Obtain Data &amp; Further Resources<span></span></a>
+<ul>
+<li><a href="where-to-obtain-data-further-resources.html#data-sources" id="toc-data-sources"><span class="toc-section-number">5.1</span> Data Sources<span></span></a>
+<ul>
+<li><a href="where-to-obtain-data-further-resources.html#maps-package" id="toc-maps-package"><span class="toc-section-number">5.1.1</span> <code>maps</code> package<span></span></a></li>
+<li><a href="where-to-obtain-data-further-resources.html#utah-gis" id="toc-utah-gis"><span class="toc-section-number">5.1.2</span> Utah GIS<span></span></a></li>
+<li><a href="where-to-obtain-data-further-resources.html#other-environmental-rasters" id="toc-other-environmental-rasters"><span class="toc-section-number">5.1.3</span> Other Environmental Rasters<span></span></a></li>
+</ul></li>
+<li><a href="where-to-obtain-data-further-resources.html#more-resources" id="toc-more-resources"><span class="toc-section-number">5.2</span> More Resources<span></span></a>
+<ul>
+<li><a href="where-to-obtain-data-further-resources.html#learn-more-about-gis-in-general" id="toc-learn-more-about-gis-in-general"><span class="toc-section-number">5.2.1</span> Learn more about GIS in general<span></span></a></li>
+</ul></li>
+<li><a href="where-to-obtain-data-further-resources.html#acknowledgements" id="toc-acknowledgements"><span class="toc-section-number">5.3</span> Acknowledgements<span></span></a>
+<ul>
+<li><a href="where-to-obtain-data-further-resources.html#figure-citations" id="toc-figure-citations"><span class="toc-section-number">5.3.1</span> Figure Citations<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R Spatial Workshop</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">R Spatial Workshop</h1>
+<p class="author"><em>Ronan Hart</em></p>
+<p class="date"><em>2022-04-06</em></p>
+</div>
+<div id="welcome-to-the-ecology-centers-workshop-on-r-spatial" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Chapter 1</span> Welcome to the Ecology Center’s Workshop on R Spatial!<a href="index.html#welcome-to-the-ecology-centers-workshop-on-r-spatial" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>In this workshop we will cover:</p>
+<ul>
+<li>GIS Basics</li>
+<li>Vectors &amp; Rasters and how to manipulate them in R</li>
+<li>Basic GIS functions</li>
+<li>(Briefly) where to obtain environmental GIS data</li>
+</ul>
+<p>We will <strong>NOT</strong> be covering how to make a nice-looking map (for figures, presentations, etc.) That will be covered in the next workshop, so be sure to keep an eye out for that if you want to learn how to make maps in R!</p>
+<hr />
+<p><strong>Goals of this workshop:</strong></p>
+<ul>
+<li>Reiterate the basics of GIS</li>
+<li>Teach you the processes that you might have learned in ArcGIS or other GIS software that you can code yourself in R</li>
+</ul>
+<div id="why-gis-in-r" class="section level2 unnumbered hasAnchor">
+<h2>Why GIS in R?<a href="index.html#why-gis-in-r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>You may be asking why you even need to learn how to code spatial processes in R, especially if you already know how to use ArcGIS. (Well, maybe you’re not actually asking that question if you’re taking this class.) But here are a few reasons why:</p>
+<ul>
+<li>Free
+<ul>
+<li>you most often need to pay companies to use their GIS software (or be a student to use a university’s license). What happens when you’re no longer a student nor hired by a company/organization that already has a license?</li>
+</ul></li>
+<li>Reproducible
+<ul>
+<li>Some journals require you to publish your code alongside your manuscript</li>
+<li>If you are collaborating on a project, you can</li>
+</ul></li>
+<li>Open-Source
+<ul>
+<li>company-owned software is often hidden behind a “black box” so you might not be 100% certain what a function or tool is doing.</li>
+<li>Functions in R are completely open to the public so you can be certain that a function is doing what you think it’s doing</li>
+</ul></li>
+<li>Customizable
+<ul>
+<li>You can write your code to suit your specific problem and answer your specific questions</li>
+<li>You can write custom functions and loops so that you can repeat processes on multiple features and rasters without having to copy and paste code</li>
+</ul></li>
+</ul>
+<p>Reproducibility and customization are not unique to R but rather an advantage to using code for GIS in general. In a few weeks there will be a workshop on coding in python for GIS tools, which is just as useful (especially because you can use the package <code>arcpy</code> in python to code directly to ArcGIS), so I also recommend taking that workshop if you’re interested.</p>
+<p>Not to say that programs such as ArcGIS should never be used. On the contrary, since it was the way I first learned GIS, I will sometimes return to it to make a map on the fly or quickly visualize and double-check a polygon or raster. All programs have their pros and cons, and this workshop is to simply add another tool in your spatial analysis toolbox.</p>
+<hr />
+</div>
+<div id="prerequisites-packages-and-preparation" class="section level2 unnumbered hasAnchor">
+<h2>Prerequisites, Packages, and Preparation<a href="index.html#prerequisites-packages-and-preparation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Before we begin, please be sure you have done the follow preparations:</p>
+<ol style="list-style-type: decimal">
+<li>Make sure you have a recent version of <a href="https://cran.r-project.org/">R</a> and <a href="https://www.rstudio.com/">RStudio</a> installed</li>
+</ol>
+<ul>
+<li>to check your version of R, type <code>R.version</code> in the console. <code>version.string</code> will have the version number and its release date. The most recent version (as of 2022-03-30) is 4.1.3 (released on 2022-03-10). <strong>Version 4.1.2 is perfectly fine for this workshop.</strong></li>
+<li>to check your version of RStudio, Go to Help (in the toolbar at the top) &gt; Check for Updates. RStudio 2022.02.1+461 is the most recent version. <strong>Version 2021.09.2+382 is perfectly fine for this workshop.</strong></li>
+</ul>
+<p><img src="pictures/help.PNG" width="25%" style="display: block; margin: auto;" /></p>
+<ol start="2" style="list-style-type: decimal">
+<li>Install (if needed) and load the following packages:</li>
+</ol>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;raster&quot;</span>)</span>
+<span id="cb1-2"><a href="index.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;rgdal&quot;</span>)</span>
+<span id="cb1-3"><a href="index.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;rgeos&quot;</span>)</span>
+<span id="cb1-4"><a href="index.html#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;sf&quot;</span>)</span>
+<span id="cb1-5"><a href="index.html#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;sp&quot;</span>)</span>
+<span id="cb1-6"><a href="index.html#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;tidyverse&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="index.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span></code></pre></div>
+<pre><code>## Warning: package &#39;raster&#39; was built under R version 4.1.3</code></pre>
+<pre><code>## Warning: package &#39;sp&#39; was built under R version 4.1.3</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="index.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rgdal)</span></code></pre></div>
+<pre><code>## Warning: package &#39;rgdal&#39; was built under R version 4.1.3</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="index.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rgeos)</span></code></pre></div>
+<pre><code>## Warning: package &#39;rgeos&#39; was built under R version 4.1.3</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="index.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span></code></pre></div>
+<pre><code>## Warning: package &#39;sf&#39; was built under R version 4.1.3</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="index.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sp)</span>
+<span id="cb11-2"><a href="index.html#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<pre><code>## Warning: package &#39;tibble&#39; was built under R version 4.1.3</code></pre>
+<pre><code>## Warning: package &#39;tidyr&#39; was built under R version 4.1.3</code></pre>
+<pre><code>## Warning: package &#39;dplyr&#39; was built under R version 4.1.3</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>(Optional but recommended) Create a new RStudio project. This will make it easier to access files within your code and keep everything organized. <a href="https://support.rstudio.com/hc/en-us/articles/200526207-Using-RStudio-Projects">Here’s a guide on how to do that</a></li>
+</ol>
+<p>After taking care of that, let’s get started!</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+<a href="gis-basics.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://https://github.com/ronanhart/R_spatial_workshop/index.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
