@@ -1,11 +1,11 @@
 --- 
 title: "R Spatial Workshop"
 author: "Ronan Hart"
-date: "2022-04-06"
+date: "2022-10-26"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib, packages.bib]
-# url: your book url like https://bookdown.org/yihui/bookdown
+# Welcome to the Ecology Center’s Workshop on R Spatial!
 # cover-image: path to the social sharing image like images/cover.jpg
 description: |
   This workshop was created for USU's Ecology Center R workshops on R Spatial.
@@ -49,7 +49,7 @@ You may be asking why you even need to learn how to code spatial processes in R,
   + you most often need to pay companies to use their GIS software (or be a           student to use a university's license). What happens when you're no longer a      student nor hired by a company/organization that already has a license?
 * Reproducible
   + Some journals require you to publish your code alongside your manuscript
-  + If you are collaborating on a project, you can 
+  + If you are collaborating on a project, you can easily share your methods and scripts with your collaborators. 
 * Open-Source
   + company-owned software is often hidden behind a "black box" so you might not be 100% certain what a function or tool is doing. 
   + Functions in R are completely open to the public so you can be certain that a function is doing what you think it's doing
