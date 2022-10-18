@@ -349,7 +349,7 @@ landcover_rcl <- raster("Data/Examples/landcover_rcl.tif")
 landcover_rcl <- reclassify(landcover, rclLand)
 ```
 
-```{r loadRCLquiet, eval = T, echo = T}
+```{r plotRCL, eval = T, echo = T}
 landcover_rcl
 plot(stack(landcover, landcover_rcl)) # plot them together to compare
 ```
